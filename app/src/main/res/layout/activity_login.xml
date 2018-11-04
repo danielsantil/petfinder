@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BaseTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:padding="30dp">
+
+    <ImageView
+        android:id="@+id/paw_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/paw_large" />
 
     <TextView
+        android:id="@+id/app_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@id/paw_image"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="casual"
+        android:text="@string/app_name"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/username_edit_text"
+        style="@style/LoginEditText"
+        android:layout_below="@id/app_title"
+        android:layout_marginTop="50dp"
+        android:hint="@string/username_edit_text"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/password_edit_text"
+        style="@style/LoginEditText"
+        android:layout_below="@id/username_edit_text"
+        android:hint="@string/password_edit_text"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        tools:targetApi="o" />
+
+    <LinearLayout
+        android:id="@+id/login_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_edit_text"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/register_btn"
+            style="@style/ButtonLogin"
+            android:text="@string/create_account" />
+
+        <Button
+            android:id="@+id/login_btn"
+            style="@style/ButtonLogin"
+            android:text="@string/login_text" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/register_btn_google"
+        style="@style/TextViewLink"
+        android:layout_below="@id/login_buttons"
+        android:text="@string/login_google" />
+
+    <Button
+        android:id="@+id/register_btn_fb"
+        style="@style/TextViewLink"
+        android:layout_below="@id/register_btn_google"
+        android:text="@string/login_facebook" />
+
+</RelativeLayout>

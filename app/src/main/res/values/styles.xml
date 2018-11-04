@@ -8,4 +8,38 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="AppThemeNoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="LoginEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextViewLink" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonLogin" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">2</item>
+    </style>
+
+    <style name="BaseTheme">
+        <item name="android:background">@color/baseColor</item>
+    </style>
+
 </resources>
