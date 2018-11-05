@@ -10,3 +10,9 @@
 /build
 /captures
 .externalNativeBuild
+
+\.idea/assetWizardSettings\.xml
+
+\.idea/dictionaries/danielsantil\.xml
+
+\.idea/inspectionProfiles/Project_Default\.xml

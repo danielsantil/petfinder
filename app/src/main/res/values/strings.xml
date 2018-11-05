@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">Pet Finder</string>
     <string name="username_edit_text">Username</string>
+    <string name="fullname_edit_text">Full Name</string>
     <string name="password_edit_text">Password</string>
+    <string name="phone_edit_text">Phone Number</string>
     <string name="login_text">Login</string>
-    <string name="create_account">Register</string>
+    <string name="create_account">Create a new account</string>
+    <string name="create">Create</string>
     <string name="login_google">Login using Google</string>
     <string name="login_facebook">Login using Facebook</string>
+    <string name="registration">Registration</string>
+    <string name="select_a_profile_picture">Select a profile picture</string>
 </resources>
