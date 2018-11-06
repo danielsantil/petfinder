@@ -54,4 +54,12 @@
         <item name="android:padding">30dp</item>
     </style>
 
+    <style name="StatsElement">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

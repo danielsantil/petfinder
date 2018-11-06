@@ -1,9 +1,12 @@
-package com.androidadvanced.petfinder;
+package com.androidadvanced.petfinder.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
+
+import com.androidadvanced.petfinder.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +35,7 @@ public class SignupActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.registration);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override

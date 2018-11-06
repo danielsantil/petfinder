@@ -11,4 +11,11 @@
     <string name="login_facebook">Login using Facebook</string>
     <string name="registration">Registration</string>
     <string name="select_a_profile_picture">Select a profile picture</string>
+    <string name="profile">Profile</string>
+    <string name="new_post">New post</string>
+    <string name="my_news_feed">My News Feed</string>
+    <string name="post_picture">Post picture</string>
+    <string name="details">Details</string>
+    <string name="last_seen">Last seen:</string>
+    <string name="help_text">I want to help</string>
 </resources>
