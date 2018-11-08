@@ -6,19 +6,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidadvanced.petfinder.R;
-import com.androidadvanced.petfinder.adapters.NewsFeedAdapter;
+import com.androidadvanced.petfinder.adapters.RecyclerViewAdapter;
+import com.androidadvanced.petfinder.adapters.RecyclerAdapterSetter;
 import com.androidadvanced.petfinder.models.Post;
-import com.androidadvanced.petfinder.utils.Constants;
+import com.androidadvanced.petfinder.utils.Dummy;
+import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewsFeedActivity extends AppCompatActivity {
+public class NewsFeedActivity extends AppCompatActivity
+        implements RecyclerAdapterSetter<RecyclerViewAdapter<Post>, Post> {
 
     @BindView(R.id.news_feed_recycler)
     RecyclerView recyclerView;
@@ -36,29 +42,9 @@ public class NewsFeedActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.my_news_feed);
         }
 
-        List<Post> posts = getPosts();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false));
-        recyclerView.setAdapter(new NewsFeedAdapter(this, posts));
-    }
-
-    private List<Post> getPosts() {
-        List<Post> posts = new ArrayList<>();
-
-        String base64 = Constants.DUMMY_IMG;
-        byte[] bytes = android.util.Base64.decode(base64, android.util.Base64.DEFAULT);
-        base64 = Constants.DUMMY_IMG_3;
-        byte[] bytes3 = android.util.Base64.decode(base64, android.util.Base64.DEFAULT);
-        posts.add(new Post("Firulai", "Calle 1 esq Calle 4, D.N.", bytes, 10, 20));
-        posts.add(new Post("Doggy", "Calle 1 esq Calle 4, Santiago", bytes3, 14, 153));
-        posts.add(new Post("Catty", "Calle 1 esq Calle 4, D.N.", bytes3, 1523, 135));
-        posts.add(new Post("Bobb", "Calle 1 esq Calle 4, Panama", bytes, 132, 5234));
-        posts.add(new Post("Beto", "Calle 1 esq Calle 4, La Romana", bytes, 0, 0));
-        posts.add(new Post("Croco", "Calle 1 esq Calle 4, Puerto Plata", bytes3, 14, 44));
-        posts.add(new Post("Turtley", "Calle 1 esq Calle 4, Av. Churchill", bytes3, 5, 5));
-
-        return posts;
+        recyclerView.setAdapter(createAdapter(Dummy.getPosts()));
     }
 
     @Override
@@ -66,5 +52,29 @@ public class NewsFeedActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public RecyclerViewAdapter<Post> createAdapter(List<Post> posts) {
+        return new RecyclerViewAdapter<>(this, posts, R.layout.post_item, (view, item) -> {
+            ImageView picture = view.findViewById(R.id.post_picture);
+            TextView name = view.findViewById(R.id.pet_name);
+            TextView lastSeen = view.findViewById(R.id.last_seen_address);
+            TextView seen = view.findViewById(R.id.seen_count);
+            TextView helping = view.findViewById(R.id.helping_count);
+            ImageButton details = view.findViewById(R.id.post_details);
+
+            name.setText(item.getPet().getName());
+            lastSeen.setText(item.getPet().getLastSeenAddress());
+            seen.setText(String.valueOf(item.getStats().getSeen()));
+            helping.setText(String.valueOf(item.getStats().getHelping()));
+
+            if (item.getPet().getPicture() != null)
+                Glide.with(this).load(item.getPet().getPicture()).into(picture);
+
+
+            details.setOnClickListener(v -> Toast.makeText(this, "You clicked on "
+                    + item.getPet().getName(), Toast.LENGTH_SHORT).show());
+        });
     }
 }
