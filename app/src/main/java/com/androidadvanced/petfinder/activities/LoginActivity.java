@@ -3,6 +3,7 @@ package com.androidadvanced.petfinder.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
 
@@ -16,6 +17,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.username_edit_text)
     EditText username;
+    @BindView(R.id.password_edit_text)
+    EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,15 @@ public class LoginActivity extends AppCompatActivity {
 
     void init() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    @OnClick(R.id.uncover_pwd)
+    void showPassword() {
+        if (password.getInputType() == InputType.TYPE_CLASS_TEXT) {
+            password.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        } else {
+            password.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
     }
 
     @OnClick(R.id.register_btn)
