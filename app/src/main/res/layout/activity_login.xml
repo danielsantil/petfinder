@@ -72,7 +72,6 @@
             android:id="@+id/reset_pwd_btn"
             style="@style/BorderlessButton"
             android:layout_width="wrap_content"
-            android:layout_height="33dp"
             android:gravity="start|bottom"
             android:text="@string/reset_password" />
 
