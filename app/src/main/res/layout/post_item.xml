@@ -53,9 +53,10 @@
             android:id="@+id/post_details"
             style="@style/BorderlessButton"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="110dp"
+            android:layout_alignTop="@+id/post_picture"
             android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:contentDescription="@string/details"
             android:src="@drawable/ic_right_arrow" />
 
