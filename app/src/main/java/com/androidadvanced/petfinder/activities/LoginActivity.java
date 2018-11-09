@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             password.setInputType(InputType.TYPE_CLASS_TEXT);
         }
+        password.setSelection(password.getText().length());
     }
 
     @OnClick(R.id.register_btn)
