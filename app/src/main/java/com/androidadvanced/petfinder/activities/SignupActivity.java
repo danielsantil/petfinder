@@ -11,7 +11,7 @@ import com.androidadvanced.petfinder.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends OptionMenuBackActivity {
 
     @BindView(R.id.signup_username)
     EditText username;
@@ -26,23 +26,12 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        onCreateMenu(R.string.registration);
         ButterKnife.bind(this);
         init();
     }
 
     private void init() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.registration);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

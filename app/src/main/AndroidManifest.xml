@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SignupActivity" />
-        <activity android:name=".activities.NewsFeedActivity"></activity>
+        <activity android:name=".activities.NewsFeedActivity" />
+        <activity android:name=".activities.PostDetailsActivity"></activity>
+        <activity android:name=".activities.OptionsMenuActivity" />
+        <activity android:name=".activities.OptionMenuBackActivity" />
     </application>
 
 </manifest>

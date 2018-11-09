@@ -20,4 +20,9 @@
     <string name="help_text">I want to help</string>
     <string name="show_password">Show password</string>
     <string name="reset_password">Reset Password</string>
+    <string name="post_details">Post Details</string>
+    <string name="share_post">Share</string>
+    <string name="contact_post">Contact</string>
+    <string name="seen_by">Seen by: </string>
+    <string name="people_helping">Helping: </string>
 </resources>

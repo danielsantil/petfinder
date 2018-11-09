@@ -1,29 +1,28 @@
 package com.androidadvanced.petfinder.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidadvanced.petfinder.R;
-import com.androidadvanced.petfinder.adapters.RecyclerViewAdapter;
 import com.androidadvanced.petfinder.adapters.RecyclerAdapterSetter;
+import com.androidadvanced.petfinder.adapters.RecyclerViewAdapter;
 import com.androidadvanced.petfinder.models.Post;
 import com.androidadvanced.petfinder.utils.Dummy;
+import com.androidadvanced.petfinder.utils.Keys;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewsFeedActivity extends AppCompatActivity
+public class NewsFeedActivity extends OptionsMenuActivity
         implements RecyclerAdapterSetter<RecyclerViewAdapter<Post>, Post> {
 
     @BindView(R.id.news_feed_recycler)
@@ -33,25 +32,15 @@ public class NewsFeedActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
+        onCreateMenu(R.string.my_news_feed);
         ButterKnife.bind(this);
         init();
     }
 
     private void init() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.my_news_feed);
-        }
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false));
         recyclerView.setAdapter(createAdapter(Dummy.getPosts()));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
     }
 
     @Override
@@ -68,13 +57,15 @@ public class NewsFeedActivity extends AppCompatActivity
             lastSeen.setText(item.getPet().getLastSeenAddress());
             seen.setText(String.valueOf(item.getStats().getSeen()));
             helping.setText(String.valueOf(item.getStats().getHelping()));
+            Glide.with(this).load(item.getPet().getPicture()).into(picture);
 
-            if (item.getPet().getPicture() != null)
-                Glide.with(this).load(item.getPet().getPicture()).into(picture);
-
-
-            details.setOnClickListener(v -> Toast.makeText(this, "You clicked on "
-                    + item.getPet().getName(), Toast.LENGTH_SHORT).show());
+            details.setOnClickListener(v -> showDetails(item));
         });
+    }
+
+    private void showDetails(Post post) {
+        Intent intent = new Intent(this, PostDetailsActivity.class);
+        intent.putExtra(Keys.POST_DETAIL, new Gson().toJson(post));
+        startActivity(intent);
     }
 }

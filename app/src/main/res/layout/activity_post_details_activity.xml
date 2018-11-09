@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BaseTheme">
+
+    <ScrollView
+        android:id="@+id/details_scroll"
+        style="@style/BaseTheme"
+        android:layout_above="@id/actions_buttons">
+
+        <LinearLayout
+            style="@style/BaseTheme30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pet_name"
+                    style="@style/TextMainTitle"
+                    android:textColor="@color/dark"
+                    tools:text="pet name" />
+
+                <TextView
+                    android:id="@+id/pet_pub_date"
+                    style="@style/NormalText"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:layout_marginTop="10dp"
+                    tools:text="24/12/2018 5:15 PM" />
+
+                <ImageButton
+                    android:id="@+id/pet_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/post_picture" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="0dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorLight">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/NormalTextWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:drawableStart="@drawable/ic_seen"
+                            android:drawableTint="@color/baseColor"
+                            android:text="@string/seen_by"
+                            android:textStyle="bold"
+                            tools:targetApi="m" />
+
+                        <TextView
+                            android:id="@+id/post_seen_count"
+                            style="@style/NormalTextWhite"
+                            android:layout_width="wrap_content"
+                            tools:text="213,417" />
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorLight">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/NormalTextWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:drawableStart="@drawable/ic_helping"
+                            android:drawableTint="@color/baseColor"
+                            android:text="@string/people_helping"
+                            android:textStyle="bold"
+                            tools:targetApi="m" />
+
+                        <TextView
+                            android:id="@+id/post_helping_count"
+                            style="@style/NormalTextWhite"
+                            android:layout_width="wrap_content"
+                            tools:text="3,412,764" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/NormalText"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:text="@string/last_seen"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/pet_last_seen"
+                    style="@style/NormalText"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    tools:text="Street 3412764" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pet_description"
+                style="@style/NormalText"
+                android:layout_marginTop="5dp"
+                tools:text="123124132789sdsakfjh1329d892dqwda" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/actions_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/contact_post"
+            style="@style/ButtonColored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_contact"
+            android:text="@string/contact_post" />
+
+        <Button
+            android:id="@+id/share_post"
+            style="@style/ButtonColored"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_share"
+            android:text="@string/share_post" />
+    </LinearLayout>
+</RelativeLayout>
