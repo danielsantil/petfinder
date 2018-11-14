@@ -5,10 +5,10 @@
     <string name="password_edit_text">Password</string>
     <string name="phone_edit_text">Phone Number</string>
     <string name="login_text">Sign in</string>
-    <string name="create_account">Create a new account</string>
-    <string name="create">Create</string>
+    <string name="create_account">Create account</string>
+    <string name="create">Sign up</string>
     <string name="login_google">Sign in with Google</string>
-    <string name="login_facebook">Login using Facebook</string>
+    <string name="login_facebook">Sign in with Facebook</string>
     <string name="registration">Registration</string>
     <string name="select_a_profile_picture">Select a profile picture</string>
     <string name="profile">Profile</string>
@@ -25,4 +25,15 @@
     <string name="contact_post">Contact</string>
     <string name="seen_by">Seen by: </string>
     <string name="people_helping">Helping: </string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="signup_info_text">Enter a valid email and a password.\n\nPassword must be at least
+        8 characters minimum.</string>
+    <string name="skip">Skip</string>
+    <string name="save_profile">Save profile</string>
+    <string name="edit_picture">Edit picture</string>
+    <string name="profile_description_hint">Write a short description about yourself</string>
+    <string name="contact_information_label">Contact information</string>
+    <string name="email_address_hint">Email address</string>
+    <string name="my_profile_title">My Profile</string>
+    <string name="sign_out_option">Sign out</string>
 </resources>

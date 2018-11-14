@@ -1,6 +1,5 @@
 package com.androidadvanced.petfinder.activities;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +35,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details_activity);
-        onCreateMenu(R.string.post_details);
+        initMenu();
         ButterKnife.bind(this);
         init();
     }
@@ -52,5 +51,10 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         helpCount.setText(String.valueOf(post.getStats().getHelping()));
         lastSeenAddress.setText(post.getPet().getLastSeenAddress());
         description.setText(post.getDescription());
+    }
+
+    @Override
+    protected String getActivityTitle() {
+        return getString(R.string.post_details);
     }
 }

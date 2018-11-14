@@ -1,19 +1,22 @@
 package com.androidadvanced.petfinder.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
-public class OptionMenuBackActivity extends AppCompatActivity {
+public abstract class OptionMenuBackActivity extends BaseActivity {
 
-    protected void onCreateMenu(int activityTitle) {
-        initMenu(activityTitle);
-    }
-
-    private void initMenu(int activityTitle) {
+    protected void initMenu() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(activityTitle);
+            getSupportActionBar().setTitle(getActivityTitle());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    protected abstract String getActivityTitle();
+
+    @Override
+    protected String getActivityName() {
+        return getActivityTitle();
     }
 
     @Override

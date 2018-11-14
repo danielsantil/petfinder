@@ -32,7 +32,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
-        onCreateMenu(R.string.my_news_feed);
+        initMenu();
         ButterKnife.bind(this);
         init();
     }
@@ -67,5 +67,10 @@ public class NewsFeedActivity extends OptionsMenuActivity
         Intent intent = new Intent(this, PostDetailsActivity.class);
         intent.putExtra(Keys.POST_DETAIL, new Gson().toJson(post));
         startActivity(intent);
+    }
+
+    @Override
+    protected String getActivityTitle() {
+        return getString(R.string.my_news_feed);
     }
 }

@@ -3,7 +3,7 @@ package com.androidadvanced.petfinder.models;
 public class Profile {
     private Long id;
     private String fullName;
-    private String userName;
+    private String aboutMe;
     private Contact contact;
     private byte[] picture;
 
@@ -26,14 +26,6 @@ public class Profile {
         this.fullName = fullName;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public Contact getContact() {
         return contact;
     }
@@ -48,5 +40,13 @@ public class Profile {
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
 }

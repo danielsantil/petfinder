@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/BaseTheme">
 
     <LinearLayout
@@ -9,68 +8,26 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextMainTitle"
             android:layout_marginBottom="50dp"
-            android:text="@string/create_account"
-            style="@style/TextMainTitle" />
-
-        <EditText
-            android:id="@+id/signup_username"
-            style="@style/SignupEditText"
-            android:hint="@string/username_edit_text"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:targetApi="o" />
-
-        <EditText
-            android:id="@+id/signup_password"
-            style="@style/SignupEditText"
-            android:hint="@string/password_edit_text"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            tools:targetApi="o" />
-
-        <EditText
-            android:id="@+id/signup_name"
-            style="@style/SignupEditText"
-            android:hint="@string/fullname_edit_text"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:targetApi="o" />
-
-        <EditText
-            android:id="@+id/signup_phone"
-            style="@style/SignupEditText"
-            android:hint="@string/phone_edit_text"
-            android:importantForAutofill="no"
-            android:inputType="phone"
-            tools:targetApi="o" />
-
-        <Button
-            style="@style/BorderlessButton"
-            android:layout_marginTop="10dp"
-            android:text="@string/select_a_profile_picture" />
+            android:text="@string/create_account" />
 
         <TextView
+            style="@style/NormalText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:visibility="invisible"
-            tools:text="image001.jpeg" />
+            android:layout_marginBottom="50dp"
+            android:text="@string/signup_info_text" />
 
-        <RelativeLayout
+        <include layout="@layout/credentials_container" />
+
+        <Button
+            style="@style/ButtonColored"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp">
-
-            <Button
-                style="@style/ButtonColored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:text="@string/create" />
-        </RelativeLayout>
+            android:id="@+id/signup_button"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/create" />
 
     </LinearLayout>
-
 </ScrollView>
