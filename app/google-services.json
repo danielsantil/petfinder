@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "155308507430",
+    "firebase_url": "https://petfinder-d65a3.firebaseio.com",
+    "project_id": "petfinder-d65a3",
+    "storage_bucket": "petfinder-d65a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155308507430:android:4d15a4a512dd79af",
+        "android_client_info": {
+          "package_name": "com.androidadvanced.petfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155308507430-ir3pmie05ff7gfvdjuoa3i8u68qo25lp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrb8cWzfR-57qY0_n883XOFJTr8P-xuqs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
