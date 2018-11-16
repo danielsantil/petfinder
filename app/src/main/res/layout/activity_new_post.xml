@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BaseTheme">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout style="@style/BaseTheme">
+
+            <LinearLayout
+                android:id="@+id/tabs_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/tab_picture_btn"
+                    style="@style/TabButtons"
+                    android:background="@drawable/image_border"
+                    android:text="@string/picture_tab_text" />
+
+                <Button
+                    android:id="@+id/tab_details_btn"
+                    style="@style/TabButtons"
+                    android:text="@string/details_tab_text" />
+
+                <Button
+                    android:id="@+id/tab_location_btn"
+                    style="@style/TabButtons"
+                    android:text="@string/location_tab_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_container"
+                style="@style/BaseTheme30"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tabs_container"
+                android:orientation="vertical">
+
+                <include layout="@layout/new_post_select_picture" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/create_post_container"
+        style="@style/HorizontalButtonsContainer">
+
+        <Button
+            android:id="@+id/save_new_post"
+            style="@style/InsideContainerButtonColored"
+            android:drawableEnd="@drawable/ic_right_arrow_next"
+            android:text="@string/new_post" />
+    </LinearLayout>
+</RelativeLayout>
