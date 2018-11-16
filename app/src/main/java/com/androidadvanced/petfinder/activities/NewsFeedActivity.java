@@ -1,9 +1,11 @@
 package com.androidadvanced.petfinder.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NewsFeedActivity extends OptionsMenuActivity
         implements RecyclerAdapterSetter<RecyclerViewAdapter<Post>, Post> {
@@ -40,7 +43,12 @@ public class NewsFeedActivity extends OptionsMenuActivity
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false));
-        recyclerView.setAdapter(createAdapter(Dummy.getPosts()));
+        List<Post> posts = Dummy.getPosts();
+        if (posts.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            recyclerView.setAdapter(createAdapter(Dummy.getPosts()));
+        }
     }
 
     @Override
@@ -57,7 +65,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
             lastSeen.setText(item.getPet().getLastSeenAddress());
             seen.setText(String.valueOf(item.getStats().getSeen()));
             helping.setText(String.valueOf(item.getStats().getHelping()));
-            Glide.with(this).load(item.getPet().getPicture()).into(picture);
+            Glide.with(this).load(Uri.parse(item.getPet().getPhotoUrl())).into(picture);
 
             details.setOnClickListener(v -> showDetails(item));
         });
@@ -73,4 +81,10 @@ public class NewsFeedActivity extends OptionsMenuActivity
     protected String getActivityTitle() {
         return getString(R.string.my_news_feed);
     }
+
+    @OnClick(R.id.new_post_background_btn)
+    void startNewPost() {
+        startActivity(new Intent(this, NewPostActivity.class));
+    }
+
 }

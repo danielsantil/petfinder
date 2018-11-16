@@ -1,21 +1,33 @@
 package com.androidadvanced.petfinder.models;
 
-public class Profile {
-    private Long id;
+import com.androidadvanced.petfinder.database.BaseEntity;
+import com.androidadvanced.petfinder.database.Entity;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+@Entity(value = "users")
+public class Profile extends BaseEntity {
     private String fullName;
-    private String aboutMe;
+    private String photoUrl;
+    private String activeSince;
     private Contact contact;
-    private byte[] picture;
 
     public Profile() {
+        this.contact = new Contact();
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Profile(AuthProfile auth) {
+        this.id = auth.getUid();
+        this.fullName = auth.getDisplayName();
+        if (auth.getPhotoUrl() != null)
+            this.photoUrl = auth.getPhotoUrl().toString();
 
-    public void setId(Long id) {
-        this.id = id;
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.US);
+        this.activeSince = df.format(auth.getCreationTime());
+        this.contact = new Contact();
+        this.contact.setPhoneNumber(auth.getPhoneNumber());
+        this.contact.setEmail(auth.getEmail());
     }
 
     public String getFullName() {
@@ -34,19 +46,19 @@ public class Profile {
         this.contact = contact;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = "null".equals(photoUrl) ? null : photoUrl;
     }
 
-    public String getAboutMe() {
-        return aboutMe;
+    public String getActiveSince() {
+        return this.activeSince;
     }
 
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
+    public void setActiveSince(String activeSince) {
+        this.activeSince = activeSince;
     }
 }

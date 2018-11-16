@@ -8,12 +8,13 @@ import android.view.MenuItem;
 import com.androidadvanced.petfinder.R;
 import com.androidadvanced.petfinder.auth.Authenticator;
 import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
+import com.androidadvanced.petfinder.utils.Keys;
 
 public abstract class OptionsMenuActivity extends BaseActivity {
 
     protected void initMenu() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getActivityTitle());
+            getSupportActionBar().setTitle(getActivityName());
         }
     }
 
@@ -33,13 +34,23 @@ public abstract class OptionsMenuActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_signout) {
-            Authenticator auth = new FirebaseAuthHelper(getFirebaseAuth());
-            auth.signOut();
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+        switch (item.getItemId()) {
+            case R.id.menu_signout:
+                Authenticator auth = new FirebaseAuthHelper(getFirebaseAuth());
+                auth.signOut();
+                Intent loginIntent = new Intent(this, LoginActivity.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(loginIntent);
+                finish();
+                break;
+            case R.id.menu_profile:
+                Intent profileIntent = new Intent(this, EditProfileActivity.class);
+                profileIntent.putExtra(Keys.SHOW_BACK_MENU, true);
+                startActivity(profileIntent);
+                break;
+            case R.id.menu_new_post:
+                startActivity(new Intent(this, NewPostActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -6,19 +6,19 @@ import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.androidadvanced.petfinder.R;
-import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
-import com.androidadvanced.petfinder.auth.AuthListener;
+import com.androidadvanced.petfinder.auth.TaskListener;
 import com.androidadvanced.petfinder.auth.Authenticator;
+import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
 import com.androidadvanced.petfinder.models.Credentials;
+import com.androidadvanced.petfinder.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity implements AuthListener {
+public class LoginActivity extends BaseActivity implements TaskListener {
 
     @BindView(R.id.email_edit_text)
     EditText email;
@@ -39,6 +39,10 @@ public class LoginActivity extends BaseActivity implements AuthListener {
     }
 
     void init() {
+//        if (!isConnectedToInternet()) {
+//            Utils.alert(this, "You need an active internet connection.");
+//        }
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         uncoverPwd.setOnClickListener(v -> showPassword(password));
         if (myAuth.isUserActive()) {
@@ -67,12 +71,13 @@ public class LoginActivity extends BaseActivity implements AuthListener {
             Credentials creds = new Credentials(email.getText().toString(), password.getText().toString());
             myAuth.signIn(creds, this);
         } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Utils.alert(this, e.getMessage());
         }
     }
 
     void startNewsFeed() {
         Intent intent = new Intent(this, NewsFeedActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
@@ -84,12 +89,12 @@ public class LoginActivity extends BaseActivity implements AuthListener {
 
 
     @Override
-    public void onAuthSuccess() {
+    public void onTaskSuccess() {
         startNewsFeed();
     }
 
     @Override
-    public void onAuthError(String errorMsg) {
-        Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+    public void onTaskError(String errorMsg) {
+        Utils.alert(this, errorMsg);
     }
 }

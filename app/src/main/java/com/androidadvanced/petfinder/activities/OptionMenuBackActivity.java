@@ -7,7 +7,7 @@ public abstract class OptionMenuBackActivity extends BaseActivity {
 
     protected void initMenu() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getActivityTitle());
+            getSupportActionBar().setTitle(getActivityName());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }

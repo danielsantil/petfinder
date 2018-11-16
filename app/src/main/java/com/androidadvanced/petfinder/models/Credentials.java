@@ -1,13 +1,13 @@
 package com.androidadvanced.petfinder.models;
 
 import android.util.Patterns;
-import android.widget.Toast;
 
 public class Credentials {
     private String email;
     private String password;
 
     public Credentials(String email, String password) {
+        // TODO implement bean validation
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             throw new IllegalArgumentException("Please enter a valid email address");
         }

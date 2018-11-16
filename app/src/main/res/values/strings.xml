@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pet Finder</string>
     <string name="username_edit_text">Username</string>
-    <string name="fullname_edit_text">Full Name</string>
+    <string name="fullname_edit_text">Type your name</string>
     <string name="password_edit_text">Password</string>
     <string name="phone_edit_text">Phone Number</string>
     <string name="login_text">Sign in</string>
@@ -12,7 +12,7 @@
     <string name="registration">Registration</string>
     <string name="select_a_profile_picture">Select a profile picture</string>
     <string name="profile">Profile</string>
-    <string name="new_post">New post</string>
+    <string name="new_post">Create new post</string>
     <string name="my_news_feed">My News Feed</string>
     <string name="post_picture">Post picture</string>
     <string name="details">Details</string>
@@ -31,9 +31,18 @@
     <string name="skip">Skip</string>
     <string name="save_profile">Save profile</string>
     <string name="edit_picture">Edit picture</string>
+    <string name="delete_picture">Delete picture</string>
     <string name="profile_description_hint">Write a short description about yourself</string>
     <string name="contact_information_label">Contact information</string>
     <string name="email_address_hint">Email address</string>
     <string name="my_profile_title">My Profile</string>
     <string name="sign_out_option">Sign out</string>
+    <string name="active_since_label">Active since</string>
+    <string name="no_posts">Whoa! We\'re short of posts here.
+        \nIt seems like we\'ve made a good job!</string>
+    <string name="picture_tab_text">Picture</string>
+    <string name="details_tab_text">Details</string>
+    <string name="location_tab_text">Location</string>
+    <string name="from_camera_text">From camera</string>
+    <string name="from_gallery_text">From gallery</string>
 </resources>

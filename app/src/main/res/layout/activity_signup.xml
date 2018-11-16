@@ -22,9 +22,9 @@
         <include layout="@layout/credentials_container" />
 
         <Button
+            android:id="@+id/signup_button"
             style="@style/ButtonColored"
             android:layout_width="match_parent"
-            android:id="@+id/signup_button"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/create" />

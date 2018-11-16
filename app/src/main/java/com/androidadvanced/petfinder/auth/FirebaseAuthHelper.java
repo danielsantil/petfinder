@@ -1,7 +1,9 @@
 package com.androidadvanced.petfinder.auth;
 
+import com.androidadvanced.petfinder.models.AuthProfile;
 import com.androidadvanced.petfinder.models.Credentials;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class FirebaseAuthHelper implements Authenticator {
 
@@ -12,25 +14,27 @@ public class FirebaseAuthHelper implements Authenticator {
     }
 
     @Override
-    public void signIn(Credentials creds, AuthListener listener) {
+    public void signIn(Credentials creds, TaskListener listener) {
+        //TODO use successListener and failureListener
         auth.signInWithEmailAndPassword(creds.getEmail(), creds.getPassword()).addOnCompleteListener
                 (task -> {
                     if (task.isSuccessful()) {
-                        listener.onAuthSuccess();
+                        listener.onTaskSuccess();
                     } else {
-                        listener.onAuthError(task.getException().getMessage());
+                        listener.onTaskError(task.getException().getMessage());
                     }
                 });
     }
 
     @Override
-    public void signUp(Credentials creds, AuthListener listener) {
+    public void signUp(Credentials creds, TaskListener listener) {
+        //TODO use successListener and failureListener
         auth.createUserWithEmailAndPassword(creds.getEmail(), creds.getPassword()).addOnCompleteListener
                 (task -> {
                     if (task.isSuccessful()) {
-                        listener.onAuthSuccess();
+                        listener.onTaskSuccess();
                     } else {
-                        listener.onAuthError(task.getException().getMessage());
+                        listener.onTaskError(task.getException().getMessage());
                     }
                 });
     }
@@ -43,6 +47,19 @@ public class FirebaseAuthHelper implements Authenticator {
     @Override
     public void signOut() {
         auth.signOut();
+    }
+
+    @Override
+    public AuthProfile getCurrentUser() {
+        FirebaseUser user = auth.getCurrentUser();
+        AuthProfile profile = new AuthProfile();
+        profile.setUid(user.getUid());
+        profile.setDisplayName(user.getDisplayName());
+        profile.setPhotoUrl(user.getPhotoUrl());
+        profile.setCreationTime(user.getMetadata().getCreationTimestamp());
+        profile.setEmail(user.getEmail());
+        profile.setPhoneNumber(user.getPhoneNumber());
+        return profile;
     }
 
 }

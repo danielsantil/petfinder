@@ -51,7 +51,7 @@
 
             <Button
                 android:id="@+id/login_btn"
-                style="@style/ButtonLogin"
+                style="@style/ButtonColored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login_text" />
@@ -64,6 +64,7 @@
                 android:drawablePadding="10dp"
                 android:drawableTint="@color/colorPrimaryDark"
                 android:text="@string/login_google"
+                android:visibility="invisible"
                 tools:targetApi="m" />
 
             <Button
@@ -75,6 +76,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="0dp"
                 android:text="@string/login_facebook"
+                android:visibility="invisible"
                 tools:targetApi="m" />
         </LinearLayout>
 
@@ -82,11 +84,8 @@
 
     <LinearLayout
         android:id="@+id/signup_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal">
+        style="@style/HorizontalButtonsContainer"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"

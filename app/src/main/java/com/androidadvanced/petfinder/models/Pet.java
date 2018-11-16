@@ -2,10 +2,11 @@ package com.androidadvanced.petfinder.models;
 
 public class Pet {
     private String name;
-    private byte[] picture;
+    private String photoUrl;
     private String lastSeenAddress;
 
-    public Pet() {}
+    public Pet() {
+    }
 
     public String getName() {
         return name;
@@ -15,12 +16,12 @@ public class Pet {
         this.name = name;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getLastSeenAddress() {

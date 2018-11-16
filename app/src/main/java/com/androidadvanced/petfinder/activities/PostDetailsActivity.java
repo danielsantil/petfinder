@@ -1,5 +1,6 @@
 package com.androidadvanced.petfinder.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_details_activity);
+        setContentView(R.layout.activity_post_details);
         initMenu();
         ButterKnife.bind(this);
         init();
@@ -44,8 +45,8 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         String postStr = getIntent().getStringExtra(Keys.POST_DETAIL);
         Post post = new Gson().fromJson(postStr, Post.class);
         petName.setText(post.getPet().getName());
-        pubDate.setText(post.getPubDate().toString());
-        Glide.with(this).load(post.getPet().getPicture())
+        pubDate.setText(post.getPubDate());
+        Glide.with(this).load(Uri.parse(post.getPet().getPhotoUrl()))
                 .apply(new RequestOptions().centerCrop()).into(picture);
         seenCount.setText(String.valueOf(post.getStats().getSeen()));
         helpCount.setText(String.valueOf(post.getStats().getHelping()));

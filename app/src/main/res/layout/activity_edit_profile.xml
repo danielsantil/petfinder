@@ -8,8 +8,8 @@
         android:id="@+id/profile_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/signup_buttons_container">
-
+        android:layout_above="@id/signup_buttons_container"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             style="@style/BaseTheme30"
@@ -26,8 +26,7 @@
                     android:id="@+id/profile_picture"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="@string/select_a_profile_picture"
-                    android:src="@drawable/paw_large" />
+                    android:contentDescription="@string/select_a_profile_picture" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -36,6 +35,7 @@
                     android:background="@color/colorAccent">
 
                     <ImageButton
+                        android:id="@+id/profile_choose_picture"
                         style="@style/BorderlessButton"
                         android:layout_width="50dp"
                         android:layout_height="35dp"
@@ -44,11 +44,12 @@
                         android:src="@drawable/ic_edit" />
 
                     <ImageButton
+                        android:id="@+id/profile_delete_picture"
                         style="@style/BorderlessButton"
                         android:layout_width="50dp"
                         android:layout_height="35dp"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="@string/edit_picture"
+                        android:contentDescription="@string/delete_picture"
                         android:src="@drawable/ic_cancel" />
                 </RelativeLayout>
             </FrameLayout>
@@ -59,33 +60,37 @@
                 android:hint="@string/fullname_edit_text"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                tools:targetApi="o"
-                tools:text="Daniel Santil" />
-
-            <EditText
-                android:id="@+id/profile_aboutme"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="10dp"
-                android:hint="@string/profile_description_hint"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                tools:targetApi="o"
-                tools:text="lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " />
+                tools:targetApi="o" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/NormalText"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/active_since_label"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/active_since"
+                    style="@style/NormalText"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
                 android:orientation="vertical">
 
                 <TextView
                     style="@style/NormalText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:text="@string/contact_information_label"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -98,18 +103,18 @@
                     android:hint="@string/phone_edit_text"
                     android:importantForAutofill="no"
                     android:inputType="phone"
+                    android:textSize="16sp"
                     tools:targetApi="o" />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_email"
-                    style="@style/LoginEditText"
+                    style="@style/NormalText"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
                     android:drawableStart="@drawable/ic_mail"
                     android:drawablePadding="10dp"
                     android:hint="@string/email_address_hint"
-                    android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
-                    tools:targetApi="o"
-                    tools:text="daniel.shcf@gmail.com" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -117,27 +122,20 @@
 
     </ScrollView>
 
+
     <LinearLayout
         android:id="@+id/signup_buttons_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal">
+        style="@style/HorizontalButtonsContainer">
 
         <Button
-            style="@style/ButtonColored"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:id="@+id/profile_skip_button"
+            style="@style/InsideContainerButtonColored"
             android:backgroundTint="@color/colorAccent"
             android:text="@string/skip" />
 
         <Button
-            style="@style/ButtonColored"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:id="@+id/profile_save_button"
+            style="@style/InsideContainerButtonColored"
             android:drawableStart="@drawable/ic_save"
             android:text="@string/save_profile" />
 
