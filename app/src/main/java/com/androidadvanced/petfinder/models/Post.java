@@ -7,7 +7,7 @@ public class Post extends BaseEntity {
     private String description;
     private String pubDate;
     private Pet pet;
-    private Stats stats;
+    private Stats stats; // TODO extract this entity to include more attributes (list of people)
 
     public Post() {
     }

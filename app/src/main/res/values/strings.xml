@@ -45,4 +45,14 @@
     <string name="location_tab_text">Location</string>
     <string name="from_camera_text">From camera</string>
     <string name="from_gallery_text">From gallery</string>
+    <string name="pet_name_hint">Name</string>
+    <string name="pet_description">Description</string>
+    <string name="pet_name_label">What\'s your pet name?</string>
+    <string name="pet_description_label">Feel free and tell us a bit about your pet</string>
+    <string name="new_post_next_step">Continue</string>
+    <string name="new_post_back_step">Go Back</string>
+    <string name="new_post_last_step">Create</string>
+    <string name="new_post_location">Location</string>
+    <string name="current_location_label">Get current</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

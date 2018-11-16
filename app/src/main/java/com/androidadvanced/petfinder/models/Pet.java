@@ -4,6 +4,7 @@ public class Pet {
     private String name;
     private String photoUrl;
     private String lastSeenAddress;
+    private String latLong;
 
     public Pet() {
     }
@@ -30,5 +31,13 @@ public class Pet {
 
     public void setLastSeenAddress(String lastSeenAddress) {
         this.lastSeenAddress = lastSeenAddress;
+    }
+
+    public String getLatLong() {
+        return latLong;
+    }
+
+    public void setLatLong(String latLong) {
+        this.latLong = latLong;
     }
 }

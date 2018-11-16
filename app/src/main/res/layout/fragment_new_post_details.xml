@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/HeadingSectionText"
+        android:text="@string/pet_name_label" />
+
+    <EditText
+        android:id="@+id/new_post_pet_name"
+        style="@style/NormalText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/pet_name_hint"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:targetApi="o" />
+
+    <TextView
+        style="@style/HeadingSectionText"
+        android:layout_marginTop="40dp"
+        android:text="@string/pet_description_label" />
+
+    <EditText
+        android:id="@+id/new_post_pet_description"
+        style="@style/NormalText"
+        android:gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/pet_description"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        tools:targetApi="o" />
+
+</LinearLayout>
