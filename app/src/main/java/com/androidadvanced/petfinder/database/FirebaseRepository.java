@@ -8,6 +8,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FirebaseRepository<T> implements Repository<T> {
 
     private final Class<T> refType;
@@ -21,7 +24,7 @@ public class FirebaseRepository<T> implements Repository<T> {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference().child(getNodeName(refType));
 
-        ref.child(entity.getId()).setValue(entity)
+        ref.child(getKey(entity, ref)).setValue(entity)
                 .addOnSuccessListener(aVoid -> listener.onCommandSuccess())
                 .addOnFailureListener(exc -> listener.onCommandError(exc.getMessage()));
     }
@@ -44,6 +47,28 @@ public class FirebaseRepository<T> implements Repository<T> {
         });
     }
 
+    @Override
+    public void getAll(DataQueryListener<List<T>> listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference().child(getNodeName(refType));
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<T> results = new ArrayList<>();
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
+                    results.add(child.getValue(refType));
+                }
+                listener.onQuerySuccess(results);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onQueryError(databaseError.getMessage());
+            }
+        });
+    }
+
     private String getNodeName(Class<?> type) {
         String nodeName;
         Entity ann = type.getAnnotation(Entity.class);
@@ -53,5 +78,11 @@ public class FirebaseRepository<T> implements Repository<T> {
             nodeName = ann.value();
         }
         return nodeName;
+    }
+
+    private String getKey(BaseEntity entity, DatabaseReference ref) {
+        String key = entity.getId() == null ? ref.push().getKey() : entity.getId();
+        entity.setId(key);
+        return key;
     }
 }

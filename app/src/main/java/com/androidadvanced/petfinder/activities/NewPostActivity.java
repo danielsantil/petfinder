@@ -1,6 +1,8 @@
 package com.androidadvanced.petfinder.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -12,8 +14,20 @@ import com.androidadvanced.petfinder.R;
 import com.androidadvanced.petfinder.activities.fragments.NewPostDetailsFragment;
 import com.androidadvanced.petfinder.activities.fragments.NewPostLocationFragment;
 import com.androidadvanced.petfinder.activities.fragments.NewPostPictureFragment;
+import com.androidadvanced.petfinder.auth.Authenticator;
+import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
+import com.androidadvanced.petfinder.database.DataCommandListener;
+import com.androidadvanced.petfinder.database.FirebaseRepository;
+import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Post;
+import com.androidadvanced.petfinder.models.Stats;
+import com.androidadvanced.petfinder.storage.FileStore;
+import com.androidadvanced.petfinder.storage.FirebaseStore;
+import com.androidadvanced.petfinder.storage.Folders;
+import com.androidadvanced.petfinder.storage.StoreListener;
 import com.androidadvanced.petfinder.utils.Utils;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +44,9 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
     TextView headerText;
 
     private Post newPost;
+    private Authenticator authenticator;
+    private Repository<Post> repository;
+    private FileStore storage;
 
     @Override
     protected String getActivityTitle() {
@@ -43,6 +60,9 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
         ButterKnife.bind(this);
         initMenu();
         init();
+        authenticator = new FirebaseAuthHelper(getFirebaseAuth());
+        repository = new FirebaseRepository<>(Post.class);
+        storage = new FirebaseStore(Folders.PETS);
     }
 
     private void init() {
@@ -120,19 +140,53 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
         switch (step) {
             case 1:
                 showFragment(NewPostPictureFragment.newInstance(newPost));
-                setFrame(R.string.picture_tab_text, View.GONE, false, b -> {
-                }, c -> showStep(2));
+                setFrame(R.string.picture_tab_text, View.GONE, false, b -> {},
+                        c -> showStep(2));
                 break;
             case 2:
                 showFragment(NewPostDetailsFragment.newInstance(newPost));
-                setFrame(R.string.details_tab_text, View.VISIBLE, false, b -> showStep
-                        (1), c -> showStep(3));
+                setFrame(R.string.details_tab_text, View.VISIBLE, false, b -> showStep(1),
+                        c -> showStep(3));
                 break;
             case 3:
                 showFragment(NewPostLocationFragment.newInstance(newPost));
                 setFrame(R.string.location_tab_text, View.VISIBLE, true, b -> showStep(2),
-                        c -> Utils.alert(this, "Finished!"));
+                        c -> savePost());
                 break;
         }
+    }
+
+    private void savePost() {
+        // Setting metadata to post entity
+        newPost.setUserId(authenticator.getCurrentUser().getUid());
+        newPost.setPubDate(Utils.formatDate(new Date()));
+        newPost.setStats(new Stats());
+
+        Context context = this;
+        storage.save(Uri.parse(newPost.getPet().getPhotoUrl()), newPost.getUserId(), new StoreListener() {
+            @Override
+            public void onStoreSuccess(Uri uri) {
+                newPost.getPet().setPhotoUrl(uri.toString());
+                repository.put(newPost, new DataCommandListener() {
+                    @Override
+                    public void onCommandSuccess() {
+                        Utils.alert(context, "Post created successfully");
+                        finish();
+                    }
+
+                    @Override
+                    public void onCommandError(String errorMsg) {
+                        Utils.alert(context, errorMsg);
+                    }
+                });
+            }
+
+            @Override
+            public void onStoreError(String errorMsg) {
+                Utils.alert(context, errorMsg);
+            }
+        });
+
+
     }
 }

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,8 +14,10 @@ import android.widget.TextView;
 import com.androidadvanced.petfinder.R;
 import com.androidadvanced.petfinder.adapters.RecyclerAdapterSetter;
 import com.androidadvanced.petfinder.adapters.RecyclerViewAdapter;
+import com.androidadvanced.petfinder.database.DataQueryListener;
+import com.androidadvanced.petfinder.database.FirebaseRepository;
+import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Post;
-import com.androidadvanced.petfinder.utils.Dummy;
 import com.androidadvanced.petfinder.utils.Keys;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -31,23 +34,41 @@ public class NewsFeedActivity extends OptionsMenuActivity
     @BindView(R.id.news_feed_recycler)
     RecyclerView recyclerView;
 
+    private Repository<Post> repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
         initMenu();
         ButterKnife.bind(this);
+        repository = new FirebaseRepository<>(Post.class);
         init();
     }
 
     private void init() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                false));
-        List<Post> posts = Dummy.getPosts();
-        if (posts.isEmpty()) {
+        repository.getAll(new DataQueryListener<List<Post>>() {
+            @Override
+            public void onQuerySuccess(List<Post> result) {
+                updateUI(result);
+            }
+
+            @Override
+            public void onQueryError(String errorMsg) {
+                Log.d(getActivityTitle(), errorMsg);
+                updateUI(null);
+            }
+        });
+    }
+
+    private void updateUI(List<Post> posts) {
+        if (posts == null || posts.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
         } else {
-            recyclerView.setAdapter(createAdapter(Dummy.getPosts()));
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                    false));
+            recyclerView.setAdapter(createAdapter(posts));
         }
     }
 

@@ -77,7 +77,7 @@ public class NewPostDetailsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        unlock();
+        checkUnlock();
     }
 
     @Override
@@ -90,17 +90,17 @@ public class NewPostDetailsFragment extends Fragment {
     void onNameChanged(CharSequence text) {
         post.getPet().setName(text.toString());
         mListener.onDetailsInteraction(post);
-        unlock();
+        checkUnlock();
     }
 
     @OnTextChanged(R.id.new_post_pet_description)
     void onDescriptionChanged(CharSequence text) {
         post.setDescription(text.toString());
         mListener.onDetailsInteraction(post);
-        unlock();
+        checkUnlock();
     }
 
-    private void unlock() {
+    private void checkUnlock() {
         if (!StringUtils.isBlank(post.getDescription()) && !StringUtils.isBlank(post.getPet()
                 .getName())) {
             mListener.onDetailsUnlock();

@@ -2,9 +2,7 @@ package com.androidadvanced.petfinder.models;
 
 import com.androidadvanced.petfinder.database.BaseEntity;
 import com.androidadvanced.petfinder.database.Entity;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import com.androidadvanced.petfinder.utils.Utils;
 
 @Entity(value = "users")
 public class Profile extends BaseEntity {
@@ -23,8 +21,7 @@ public class Profile extends BaseEntity {
         if (auth.getPhotoUrl() != null)
             this.photoUrl = auth.getPhotoUrl().toString();
 
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.US);
-        this.activeSince = df.format(auth.getCreationTime());
+        this.activeSince = Utils.formatDate(auth.getCreationTime());
         this.contact = new Contact();
         this.contact.setPhoneNumber(auth.getPhoneNumber());
         this.contact.setEmail(auth.getEmail());

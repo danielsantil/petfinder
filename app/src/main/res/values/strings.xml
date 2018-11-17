@@ -55,4 +55,5 @@
     <string name="new_post_location">Location</string>
     <string name="current_location_label">Get current</string>
     <string name="title_activity_maps">Map</string>
+    <string name="share_dialog_label_text">You can change this text before sharing it</string>
 </resources>

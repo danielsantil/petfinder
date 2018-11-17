@@ -1,7 +1,9 @@
 package com.androidadvanced.petfinder.models;
 
 import com.androidadvanced.petfinder.database.BaseEntity;
+import com.androidadvanced.petfinder.database.Entity;
 
+@Entity("posts")
 public class Post extends BaseEntity {
     private String userId;
     private String description;

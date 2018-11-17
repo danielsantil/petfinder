@@ -1,19 +1,31 @@
 package com.androidadvanced.petfinder.activities;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidadvanced.petfinder.R;
+import com.androidadvanced.petfinder.database.DataQueryListener;
+import com.androidadvanced.petfinder.database.FirebaseRepository;
+import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Post;
+import com.androidadvanced.petfinder.models.Profile;
 import com.androidadvanced.petfinder.utils.Keys;
+import com.androidadvanced.petfinder.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PostDetailsActivity extends OptionMenuBackActivity {
 
@@ -32,6 +44,10 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     @BindView(R.id.pet_description)
     TextView description;
 
+    private Repository<Profile> repository;
+    private Post post;
+    private Profile petOwner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +55,12 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         initMenu();
         ButterKnife.bind(this);
         init();
+        repository = new FirebaseRepository<>(Profile.class);
     }
 
     private void init() {
         String postStr = getIntent().getStringExtra(Keys.POST_DETAIL);
-        Post post = new Gson().fromJson(postStr, Post.class);
+        post = new Gson().fromJson(postStr, Post.class);
         petName.setText(post.getPet().getName());
         pubDate.setText(post.getPubDate());
         Glide.with(this).load(Uri.parse(post.getPet().getPhotoUrl()))
@@ -57,5 +74,75 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     @Override
     protected String getActivityTitle() {
         return getString(R.string.post_details);
+    }
+
+    @OnClick(R.id.contact_post)
+    void getContactInfo() {
+        if (petOwner != null) {
+            showContactDialog(petOwner);
+            return;
+        }
+
+        Context context = this;
+        repository.get(post.getUserId(), new DataQueryListener<Profile>() {
+            @Override
+            public void onQuerySuccess(Profile result) {
+                petOwner = result;
+                showContactDialog(result);
+            }
+
+            @Override
+            public void onQueryError(String errorMsg) {
+                Utils.alert(context, errorMsg);
+            }
+        });
+    }
+
+    @SuppressLint("InflateParams")
+    void showContactDialog(Profile profile) {
+        View view = getLayoutInflater().inflate(R.layout.contact_info_dialog, null);
+        TextView name = view.findViewById(R.id.contact_info_name);
+        name.setText(profile.getFullName());
+        TextView phone = view.findViewById(R.id.contact_info_phone);
+        phone.setText(profile.getContact().getPhoneNumber());
+        TextView email = view.findViewById(R.id.contact_info_email);
+        email.setText(profile.getContact().getEmail());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.contact_information_label)
+                .setPositiveButton("Close", ((dialog, which) -> dialog.dismiss()))
+                .setView(view);
+        builder.create().show();
+    }
+
+    @SuppressLint("InflateParams")
+    @OnClick(R.id.share_post)
+    void showShareDialog() {
+        View view = getLayoutInflater().inflate(R.layout.share_text_dialog, null);
+        EditText editText = view.findViewById(R.id.share_edit_text);
+        editText.setText(getGenericShareText());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.share_dialog_label_text)
+                .setNegativeButton("Go back", ((dialog, which) -> dialog.dismiss()))
+                .setPositiveButton("Share", ((dialog, which) -> sharePost(editText.getText().toString())))
+                .setView(view);
+        builder.create().show();
+    }
+
+    void sharePost(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent, null));
+    }
+
+    private String getGenericShareText() {
+        return String.format("Please, help me finding %s.\n%s\nLast known location: %s.\nHere's a" +
+                        " link to the picture: %s",
+                post.getPet().getName(),
+                post.getDescription(),
+                post.getPet().getLastSeenAddress(),
+                post.getPet().getPhotoUrl());
     }
 }
