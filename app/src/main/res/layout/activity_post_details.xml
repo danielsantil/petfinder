@@ -109,7 +109,7 @@
                 <TextView
                     android:id="@+id/pet_description"
                     style="@style/NormalText"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     tools:text="123124132789sdsakfjh1329d892dqwda" />
 
             </LinearLayout>

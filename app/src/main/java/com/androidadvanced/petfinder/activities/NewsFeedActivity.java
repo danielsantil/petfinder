@@ -1,5 +1,6 @@
 package com.androidadvanced.petfinder.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -16,7 +17,10 @@ import android.widget.TextView;
 import com.androidadvanced.petfinder.R;
 import com.androidadvanced.petfinder.adapters.RecyclerAdapterSetter;
 import com.androidadvanced.petfinder.adapters.RecyclerViewAdapter;
+import com.androidadvanced.petfinder.auth.Authenticator;
+import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
 import com.androidadvanced.petfinder.database.DataQueryListener;
+import com.androidadvanced.petfinder.database.EmptyDataCommandListener;
 import com.androidadvanced.petfinder.database.FirebaseRepository;
 import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Post;
@@ -42,6 +46,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
     ProgressBar loader;
 
     private Repository<Post> repository;
+    private Authenticator authenticator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
         initMenu();
         ButterKnife.bind(this);
         repository = new FirebaseRepository<>(Post.class);
+        authenticator = new FirebaseAuthHelper(getFirebaseAuth());
         init();
     }
 
@@ -88,8 +94,8 @@ public class NewsFeedActivity extends OptionsMenuActivity
             TextView name = view.findViewById(R.id.pet_name);
             TextView lastSeen = view.findViewById(R.id.last_seen_address);
             TextView helping = view.findViewById(R.id.helping_count);
-            ImageButton details = view.findViewById(R.id.post_details);
-            LinearLayout infoContainer = view.findViewById(R.id.info_container);
+            LinearLayout infoContainer = view.findViewById(R.id.post_info_container);
+            Button helpButton = view.findViewById(R.id.help_button);
 
             name.setText(item.getPet().getName());
             lastSeen.setText(item.getPet().getLastSeenAddress());
@@ -97,23 +103,67 @@ public class NewsFeedActivity extends OptionsMenuActivity
             Glide.with(this).load(Uri.parse(item.getPet().getPhotoUrl()))
                     .apply(RequestOptions.centerCropTransform())
                     .into(picture);
-            picture.setOnClickListener(v -> showImage(Uri.parse(item.getPet().getPhotoUrl())));
-
             infoContainer.setOnClickListener(v -> showDetails(item));
-            details.setOnClickListener(v -> showDetails(item));
+            helpButton.setOnClickListener(v -> showNewHelperDialog(item));
+
+            // If current user is the owner of the post, don't show help button
+            if (item.getUserId().equals(authenticator.getCurrentUser().getUid())) {
+                helpButton.setVisibility(View.GONE);
+            } else if (isUserHelping(item)) {
+                helpButton.setText(R.string.already_helping_text);
+                helpButton.setOnClickListener(v -> showOldHelperDialog(item));
+
+            }
         });
+    }
+
+    private void showNewHelperDialog(Post post) {
+        AlertDialog myDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.want_to_help_dialog_msg)
+                .setPositiveButton(R.string.sure_dialog_text, (dialog, which) ->
+                        saveToHelpingList(post))
+                .setNegativeButton(R.string.go_back_dialog_text, (dialog, which) -> dialog.dismiss())
+                .create();
+        myDialog.show();
+        myDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources()
+                .getColor(R.color.colorPrimaryDark));
+    }
+
+    private void showOldHelperDialog(Post post) {
+        AlertDialog myDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.dont_want_to_help_dialog_msg)
+                .setPositiveButton(R.string.sign_off_dialog_text, (dialog, which) ->
+                        unsaveFromHelpingList(post))
+                .setNegativeButton(R.string.go_back_dialog_text, (dialog, which) -> dialog.dismiss())
+                .create();
+        myDialog.show();
+        myDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources()
+                .getColor(R.color.red));
+    }
+
+    private void unsaveFromHelpingList(Post post) {
+        post.getHelping().remove(authenticator.getCurrentUser().getUid());
+        repository.put(post, new EmptyDataCommandListener());
+    }
+
+    private void saveToHelpingList(Post post) {
+        post.getHelping().add(authenticator.getCurrentUser().getUid());
+        repository.put(post, new EmptyDataCommandListener());
+    }
+
+    private boolean isUserHelping(Post post) {
+        for (String user : post.getHelping()) {
+            if (user.equals(authenticator.getCurrentUser().getUid())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void showDetails(Post post) {
         Intent intent = new Intent(this, PostDetailsActivity.class);
         intent.putExtra(Keys.POST_DETAIL, new Gson().toJson(post));
         startActivity(intent);
-    }
-
-    private void showImage(Uri uri) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(uri, IMAGE_MIME_TYPE);
-        startActivity(i);
     }
 
     @Override

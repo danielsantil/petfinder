@@ -21,7 +21,6 @@ import com.androidadvanced.petfinder.models.Profile;
 import com.androidadvanced.petfinder.utils.Keys;
 import com.androidadvanced.petfinder.utils.Utils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
@@ -64,8 +63,8 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
     private void init() {
         loaderOn(loader);
-        String postStr = getIntent().getStringExtra(Keys.POST_DETAIL);
-        post = new Gson().fromJson(postStr, Post.class);
+        String postId = getIntent().getStringExtra(Keys.POST_DETAIL);
+        post = new Gson().fromJson(postId, Post.class);
         petName.setText(post.getPet().getName());
         pubDate.setText(post.getPubDate());
         Glide.with(this).load(Uri.parse(post.getPet().getPhotoUrl()))

@@ -18,6 +18,7 @@
     <string name="details">Details</string>
     <string name="last_seen">Last seen:</string>
     <string name="help_text">I want to help</string>
+    <string name="already_helping_text">Already helping</string>
     <string name="show_password">Show password</string>
     <string name="reset_password">Reset Password</string>
     <string name="post_details">Post Details</string>
@@ -63,6 +64,10 @@
     <string name="post_created_text">Post created successfully</string>
     <string name="close_dialog_text">Close</string>
     <string name="go_back_dialog_text">Go back</string>
+    <string name="sure_dialog_text">Sure!</string>
     <string name="generic_share_text">"Please, help me finding %s.\n%s\nLast known location: %s.\nHere's a" +
                         " link to the picture: %s"</string>
+    <string name="want_to_help_dialog_msg">Are you sure you want to help finding this pet?</string>
+    <string name="dont_want_to_help_dialog_msg">You are about to stop helping this pet.</string>
+    <string name="sign_off_dialog_text">Sign me off</string>
 </resources>
