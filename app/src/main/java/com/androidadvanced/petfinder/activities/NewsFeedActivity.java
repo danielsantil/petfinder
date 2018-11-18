@@ -22,6 +22,7 @@ import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Post;
 import com.androidadvanced.petfinder.utils.Keys;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -86,16 +87,16 @@ public class NewsFeedActivity extends OptionsMenuActivity
             ImageView picture = view.findViewById(R.id.post_picture);
             TextView name = view.findViewById(R.id.pet_name);
             TextView lastSeen = view.findViewById(R.id.last_seen_address);
-            TextView seen = view.findViewById(R.id.seen_count);
             TextView helping = view.findViewById(R.id.helping_count);
             ImageButton details = view.findViewById(R.id.post_details);
             LinearLayout infoContainer = view.findViewById(R.id.info_container);
 
             name.setText(item.getPet().getName());
             lastSeen.setText(item.getPet().getLastSeenAddress());
-            seen.setText(String.valueOf(item.getStats().getSeen()));
-            helping.setText(String.valueOf(item.getStats().getHelping()));
-            Glide.with(this).load(Uri.parse(item.getPet().getPhotoUrl())).into(picture);
+            helping.setText(String.valueOf(item.getHelping().size()));
+            Glide.with(this).load(Uri.parse(item.getPet().getPhotoUrl()))
+                    .apply(RequestOptions.centerCropTransform())
+                    .into(picture);
             picture.setOnClickListener(v -> showImage(Uri.parse(item.getPet().getPhotoUrl())));
 
             infoContainer.setOnClickListener(v -> showDetails(item));

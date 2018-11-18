@@ -179,7 +179,7 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
         finish();
     }
 
-    @OnClick(R.id.profile_choose_picture)
+    @OnClick({R.id.profile_choose_picture, R.id.profile_picture})
     void choosePicture() {
         imagePicker.choosePicture(true);
     }

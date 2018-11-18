@@ -39,85 +39,50 @@
                         android:gravity="start|center"
                         tools:text="24/12/2018 5:15 PM" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/pet_picture"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
+                        android:background="@drawable/image_border"
                         android:layout_marginTop="10dp"
                         android:contentDescription="@string/post_picture" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="0dp"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:backgroundTint="@color/colorLight"
+                    android:gravity="center">
 
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/colorLight">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                        <TextView
+                            style="@style/NormalTextWhite"
+                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/ic_helping"
+                            android:drawableTint="@android:color/white"
+                            android:text="@string/people_helping"
+                            android:textStyle="bold"
+                            tools:targetApi="m" />
 
-                            <TextView
-                                style="@style/NormalTextWhite"
-                                android:layout_width="wrap_content"
-                                android:layout_marginEnd="2dp"
-                                android:drawableStart="@drawable/ic_seen"
-                                android:drawableTint="@color/baseColor"
-                                android:text="@string/seen_by"
-                                android:textStyle="bold"
-                                tools:targetApi="m" />
+                        <TextView
+                            android:id="@+id/post_helping_count"
+                            style="@style/NormalTextWhite"
+                            android:layout_width="wrap_content"
+                            tools:text="3,412,764" />
 
-                            <TextView
-                                android:id="@+id/post_seen_count"
-                                style="@style/NormalTextWhite"
-                                android:layout_width="wrap_content"
-                                tools:text="213,417" />
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/colorLight">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/NormalTextWhite"
-                                android:layout_width="wrap_content"
-                                android:layout_marginEnd="2dp"
-                                android:drawableStart="@drawable/ic_helping"
-                                android:drawableTint="@color/baseColor"
-                                android:text="@string/people_helping"
-                                android:textStyle="bold"
-                                tools:targetApi="m" />
-
-                            <TextView
-                                android:id="@+id/post_helping_count"
-                                style="@style/NormalTextWhite"
-                                android:layout_width="wrap_content"
-                                tools:text="3,412,764" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -21,6 +21,7 @@ import com.androidadvanced.petfinder.models.Profile;
 import com.androidadvanced.petfinder.utils.Keys;
 import com.androidadvanced.petfinder.utils.Utils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 
@@ -38,8 +39,6 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     TextView pubDate;
     @BindView(R.id.pet_picture)
     ImageView picture;
-    @BindView(R.id.post_seen_count)
-    TextView seenCount;
     @BindView(R.id.post_helping_count)
     TextView helpCount;
     @BindView(R.id.pet_last_seen)
@@ -49,7 +48,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     @BindView(R.id.generic_loader)
     ProgressBar loader;
 
-    private Repository<Profile> repository;
+    private Repository<Profile> profileRepository;
     private Post post;
     private Profile petOwner;
 
@@ -60,7 +59,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         initMenu();
         ButterKnife.bind(this);
         init();
-        repository = new FirebaseRepository<>(Profile.class);
+        profileRepository = new FirebaseRepository<>(Profile.class);
     }
 
     private void init() {
@@ -70,9 +69,9 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         petName.setText(post.getPet().getName());
         pubDate.setText(post.getPubDate());
         Glide.with(this).load(Uri.parse(post.getPet().getPhotoUrl()))
-                .apply(new RequestOptions().centerCrop()).into(picture);
-        seenCount.setText(String.valueOf(post.getStats().getSeen()));
-        helpCount.setText(String.valueOf(post.getStats().getHelping()));
+                .apply(RequestOptions.centerCropTransform())
+                .into(picture);
+        helpCount.setText(String.valueOf(post.getHelping().size()));
         lastSeenAddress.setText(post.getPet().getLastSeenAddress());
         description.setText(post.getDescription());
         loaderOff(loader);
@@ -92,7 +91,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
         loaderOn(loader);
         Context context = this;
-        repository.get(post.getUserId(), new DataQueryListener<Profile>() {
+        profileRepository.get(post.getUserId(), new DataQueryListener<Profile>() {
             @Override
             public void onQuerySuccess(Profile result) {
                 petOwner = result;

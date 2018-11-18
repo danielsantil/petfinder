@@ -3,13 +3,15 @@ package com.androidadvanced.petfinder.models;
 import com.androidadvanced.petfinder.database.BaseEntity;
 import com.androidadvanced.petfinder.database.Entity;
 
+import java.util.List;
+
 @Entity("posts")
 public class Post extends BaseEntity {
     private String userId;
     private String description;
     private String pubDate;
     private Pet pet;
-    private Stats stats; // TODO extract this entity to include more attributes (list of people)
+    private List<String> helping;
 
     public Post() {
     }
@@ -38,19 +40,19 @@ public class Post extends BaseEntity {
         this.pubDate = pubDate;
     }
 
-    public Stats getStats() {
-        return stats;
-    }
-
-    public void setStats(Stats stats) {
-        this.stats = stats;
-    }
-
     public Pet getPet() {
         return pet;
     }
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    public List<String> getHelping() {
+        return helping;
+    }
+
+    public void setHelping(List<String> helping) {
+        this.helping = helping;
     }
 }

@@ -21,13 +21,13 @@ import com.androidadvanced.petfinder.database.DataCommandListener;
 import com.androidadvanced.petfinder.database.FirebaseRepository;
 import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Post;
-import com.androidadvanced.petfinder.models.Stats;
 import com.androidadvanced.petfinder.storage.FileStore;
 import com.androidadvanced.petfinder.storage.FirebaseStore;
 import com.androidadvanced.petfinder.storage.Folders;
 import com.androidadvanced.petfinder.storage.StoreListener;
 import com.androidadvanced.petfinder.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -164,7 +164,8 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
         // Setting metadata to post entity
         newPost.setUserId(authenticator.getCurrentUser().getUid());
         newPost.setPubDate(Utils.formatDate(new Date()));
-        newPost.setStats(new Stats());
+        newPost.setHelping(new ArrayList<>());
+        newPost.getHelping().add(newPost.getUserId());
 
         Context context = this;
         storage.save(Uri.parse(newPost.getPet().getPhotoUrl()), newPost.getUserId(), new StoreListener() {
