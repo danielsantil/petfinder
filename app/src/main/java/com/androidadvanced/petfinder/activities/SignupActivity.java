@@ -6,24 +6,24 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.androidadvanced.petfinder.R;
+import com.androidadvanced.petfinder.auth.AuthListener;
 import com.androidadvanced.petfinder.auth.Authenticator;
 import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
-import com.androidadvanced.petfinder.auth.TaskListener;
 import com.androidadvanced.petfinder.database.DataCommandListener;
 import com.androidadvanced.petfinder.database.FirebaseRepository;
 import com.androidadvanced.petfinder.database.Repository;
 import com.androidadvanced.petfinder.models.Credentials;
 import com.androidadvanced.petfinder.models.Profile;
-import com.androidadvanced.petfinder.utils.Keys;
 import com.androidadvanced.petfinder.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignupActivity extends OptionMenuBackActivity implements TaskListener {
+public class SignupActivity extends OptionMenuBackActivity implements AuthListener {
 
     @BindView(R.id.email_edit_text)
     EditText email;
@@ -31,6 +31,8 @@ public class SignupActivity extends OptionMenuBackActivity implements TaskListen
     EditText password;
     @BindView(R.id.uncover_pwd)
     ImageButton uncoverPwd;
+    @BindView(R.id.generic_loader)
+    ProgressBar loader;
 
     private Authenticator myAuth;
     private Repository<Profile> repository;
@@ -55,8 +57,10 @@ public class SignupActivity extends OptionMenuBackActivity implements TaskListen
     void createUser() {
         try {
             Credentials creds = new Credentials(email.getText().toString(), password.getText().toString());
+            loaderOn(loader);
             myAuth.signUp(creds, this);
         } catch (Exception e) {
+            loaderOff(loader);
             Utils.alert(this, e.getMessage());
         }
     }
@@ -73,24 +77,27 @@ public class SignupActivity extends OptionMenuBackActivity implements TaskListen
     }
 
     @Override
-    public void onTaskSuccess() {
+    public void onAuthSuccess() {
         Profile profile = new Profile(myAuth.getCurrentUser());
         Context context = this;
         repository.put(profile, new DataCommandListener() {
             @Override
             public void onCommandSuccess() {
+                loaderOff(loader);
                 startEditProfile();
             }
 
             @Override
             public void onCommandError(String errorMsg) {
+                loaderOff(loader);
                 Utils.alert(context, errorMsg);
             }
         });
     }
 
     @Override
-    public void onTaskError(String errorMsg) {
+    public void onAuthError(String errorMsg) {
+        loaderOff(loader);
         Utils.alert(this, errorMsg);
     }
 }

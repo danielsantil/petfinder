@@ -14,29 +14,17 @@ public class FirebaseAuthHelper implements Authenticator {
     }
 
     @Override
-    public void signIn(Credentials creds, TaskListener listener) {
-        //TODO use successListener and failureListener
-        auth.signInWithEmailAndPassword(creds.getEmail(), creds.getPassword()).addOnCompleteListener
-                (task -> {
-                    if (task.isSuccessful()) {
-                        listener.onTaskSuccess();
-                    } else {
-                        listener.onTaskError(task.getException().getMessage());
-                    }
-                });
+    public void signIn(Credentials creds, AuthListener listener) {
+        auth.signInWithEmailAndPassword(creds.getEmail(), creds.getPassword())
+                .addOnSuccessListener(authResult -> listener.onAuthSuccess())
+                .addOnFailureListener(e -> listener.onAuthError(e.getMessage()));
     }
 
     @Override
-    public void signUp(Credentials creds, TaskListener listener) {
-        //TODO use successListener and failureListener
-        auth.createUserWithEmailAndPassword(creds.getEmail(), creds.getPassword()).addOnCompleteListener
-                (task -> {
-                    if (task.isSuccessful()) {
-                        listener.onTaskSuccess();
-                    } else {
-                        listener.onTaskError(task.getException().getMessage());
-                    }
-                });
+    public void signUp(Credentials creds, AuthListener listener) {
+        auth.createUserWithEmailAndPassword(creds.getEmail(), creds.getPassword())
+                .addOnSuccessListener(authResult -> listener.onAuthSuccess())
+                .addOnFailureListener(e -> listener.onAuthError(e.getMessage()));
     }
 
     @Override

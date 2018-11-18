@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidadvanced.petfinder.R;
@@ -50,6 +51,8 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
     TextView email;
     @BindView(R.id.profile_skip_button)
     Button skipButton;
+    @BindView(R.id.generic_loader)
+    ProgressBar loader;
 
     private ImagePicker imagePicker;
     private Authenticator auth;
@@ -86,6 +89,7 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        loaderOn(loader);
         repository.get(auth.getCurrentUser().getUid(), this);
     }
 
@@ -110,10 +114,12 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
         activeSince.setText(profile.getActiveSince());
         phoneNumber.setText(StringUtils.defaultString(profile.getContact().getPhoneNumber()));
         email.setText(StringUtils.defaultString(profile.getContact().getEmail()));
+        loaderOff(loader);
     }
 
     @OnClick(R.id.profile_save_button)
     void saveChanges() {
+        loaderOn(loader);
         // We recreate the profile entity before saving changes
         Profile profile = new Profile();
         profile.setId(String.valueOf(displayName.getTag()));
@@ -148,6 +154,7 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
         repository.put(profile, new DataCommandListener() {
             @Override
             public void onCommandSuccess() {
+                loaderOff(loader);
                 if (fromFeed) {
                     finish();
                 } else {
@@ -157,6 +164,7 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
 
             @Override
             public void onCommandError(String errorMsg) {
+                loaderOff(loader);
                 Utils.alert(context, errorMsg);
             }
         });

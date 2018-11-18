@@ -56,4 +56,13 @@
     <string name="current_location_label">Get current</string>
     <string name="title_activity_maps">Map</string>
     <string name="share_dialog_label_text">You can change this text before sharing it</string>
+    <string name="no_internet_label">No internet connection</string>
+    <string name="no_internet_message">Sorry, you need an active internet connection to
+        use this app properly.</string>
+    <string name="exit_dialog_message">Exit</string>
+    <string name="post_created_text">Post created successfully</string>
+    <string name="close_dialog_text">Close</string>
+    <string name="go_back_dialog_text">Go back</string>
+    <string name="generic_share_text">"Please, help me finding %s.\n%s\nLast known location: %s.\nHere's a" +
+                        " link to the picture: %s"</string>
 </resources>

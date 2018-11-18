@@ -1,6 +1,7 @@
 package com.androidadvanced.petfinder.activities.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -86,6 +88,7 @@ public class NewPostLocationFragment extends Fragment implements OnMapReadyCallb
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,6 +99,17 @@ public class NewPostLocationFragment extends Fragment implements OnMapReadyCallb
         }
 
         mapView.onCreate(savedInstanceState);
+        mapView.setOnTouchListener((v, e) -> {
+            if (mapView.hasFocus()) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (e.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_SCROLL:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        return true;
+                }
+            }
+            return false;
+        });
         mapView.getMapAsync(this);
 
         return view;

@@ -1,61 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BaseTheme">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/create_post_container">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/BaseTheme">
 
-        <RelativeLayout style="@style/BaseTheme">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/create_post_container">
 
-            <LinearLayout
-                android:id="@+id/new_post_header_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <RelativeLayout style="@style/BaseTheme">
 
-                <TextView
-                    android:id="@+id/new_post_header"
-                    style="@style/HeadingSectionText"
+                <LinearLayout
+                    android:id="@+id/new_post_header_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/new_post_header"
+                        style="@style/HeadingSectionText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/image_border"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_container"
+                    style="@style/BaseTheme30"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/image_border"
-                    android:gravity="center"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:layout_below="@id/new_post_header_container"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
 
-            <LinearLayout
-                android:id="@+id/fragment_container"
-                style="@style/BaseTheme30"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/new_post_header_container"
-                android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/create_post_container"
+            style="@style/HorizontalButtonsContainer">
 
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+            <Button
+                android:id="@+id/new_post_back_btn"
+                style="@style/InsideContainerButtonColored"
+                android:drawableStart="@drawable/ic_left_arrow_back"
+                android:text="@string/new_post_back_step" />
 
-    <LinearLayout
-        android:id="@+id/create_post_container"
-        style="@style/HorizontalButtonsContainer">
+            <Button
+                android:id="@+id/new_post_continue_btn"
+                style="@style/InsideContainerButtonColored"
+                android:backgroundTint="@color/gray"
+                android:drawableEnd="@drawable/ic_right_arrow_next"
+                android:text="@string/new_post_next_step" />
+        </LinearLayout>
+    </RelativeLayout>
 
-        <Button
-            android:id="@+id/new_post_back_btn"
-            style="@style/InsideContainerButtonColored"
-            android:drawableStart="@drawable/ic_left_arrow_back"
-            android:text="@string/new_post_back_step" />
+    <ProgressBar
+        android:id="@+id/generic_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/new_post_continue_btn"
-            style="@style/InsideContainerButtonColored"
-            android:backgroundTint="@color/gray"
-            android:drawableEnd="@drawable/ic_right_arrow_next"
-            android:text="@string/new_post_next_step" />
-    </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

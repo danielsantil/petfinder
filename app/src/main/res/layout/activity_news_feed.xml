@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/BaseTheme"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activities.NewsFeedActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_feed_recycler"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         style="@style/BaseTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="7dp">
+        android:orientation="vertical"
+        tools:context=".activities.NewsFeedActivity">
 
-    </android.support.v7.widget.RecyclerView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/news_feed_recycler"
+            style="@style/BaseTheme"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/no_posts"
-            android:textColor="@color/dark"
-            android:textSize="19sp" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="7dp">
 
-        <Button
-            android:id="@+id/new_post_background_btn"
-            style="@style/BorderlessButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:drawableTop="@drawable/ic_new_post_large"
-            android:text="@string/new_post" />
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_posts"
+                android:textColor="@color/dark"
+                android:textSize="19sp" />
+
+            <Button
+                android:id="@+id/new_post_background_btn"
+                style="@style/BorderlessButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableTop="@drawable/ic_new_post_large"
+                android:text="@string/new_post" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/generic_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidadvanced.petfinder.R;
@@ -42,6 +43,8 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
     Button backButton;
     @BindView(R.id.new_post_header)
     TextView headerText;
+    @BindView(R.id.generic_loader)
+    ProgressBar loader;
 
     private Post newPost;
     private Authenticator authenticator;
@@ -157,6 +160,7 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
     }
 
     private void savePost() {
+        loaderOn(loader);
         // Setting metadata to post entity
         newPost.setUserId(authenticator.getCurrentUser().getUid());
         newPost.setPubDate(Utils.formatDate(new Date()));
@@ -170,12 +174,14 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
                 repository.put(newPost, new DataCommandListener() {
                     @Override
                     public void onCommandSuccess() {
-                        Utils.alert(context, "Post created successfully");
+                        loaderOff(loader);
+                        Utils.alert(context, getString(R.string.post_created_text));
                         finish();
                     }
 
                     @Override
                     public void onCommandError(String errorMsg) {
+                        loaderOff(loader);
                         Utils.alert(context, errorMsg);
                     }
                 });
@@ -183,10 +189,9 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
 
             @Override
             public void onStoreError(String errorMsg) {
+                loaderOff(loader);
                 Utils.alert(context, errorMsg);
             }
         });
-
-
     }
 }

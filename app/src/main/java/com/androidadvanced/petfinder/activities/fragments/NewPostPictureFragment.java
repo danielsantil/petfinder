@@ -116,6 +116,7 @@ public class NewPostPictureFragment extends Fragment {
         if (post.getPet() == null) {
             post.setPet(new Pet());
         }
+
         post.getPet().setPhotoUrl(uri.toString());
         Glide.with(this).load(uri).into(postImage);
         mListener.onPictureInteraction(post);

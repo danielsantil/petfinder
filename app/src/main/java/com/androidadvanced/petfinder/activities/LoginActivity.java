@@ -1,14 +1,16 @@
 package com.androidadvanced.petfinder.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.androidadvanced.petfinder.R;
-import com.androidadvanced.petfinder.auth.TaskListener;
+import com.androidadvanced.petfinder.auth.AuthListener;
 import com.androidadvanced.petfinder.auth.Authenticator;
 import com.androidadvanced.petfinder.auth.FirebaseAuthHelper;
 import com.androidadvanced.petfinder.models.Credentials;
@@ -18,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity implements TaskListener {
+public class LoginActivity extends BaseActivity implements AuthListener {
 
     @BindView(R.id.email_edit_text)
     EditText email;
@@ -26,6 +28,8 @@ public class LoginActivity extends BaseActivity implements TaskListener {
     EditText password;
     @BindView(R.id.uncover_pwd)
     ImageButton uncoverPwd;
+    @BindView(R.id.generic_loader)
+    ProgressBar loader;
 
     private Authenticator myAuth;
 
@@ -39,9 +43,7 @@ public class LoginActivity extends BaseActivity implements TaskListener {
     }
 
     void init() {
-//        if (!isConnectedToInternet()) {
-//            Utils.alert(this, "You need an active internet connection.");
-//        }
+//        if (!isConnectedToInternet()) showNoInternetDialog();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         uncoverPwd.setOnClickListener(v -> showPassword(password));
@@ -69,8 +71,10 @@ public class LoginActivity extends BaseActivity implements TaskListener {
     void validateLogin() {
         try {
             Credentials creds = new Credentials(email.getText().toString(), password.getText().toString());
+            loaderOn(loader);
             myAuth.signIn(creds, this);
         } catch (Exception e) {
+            loaderOff(loader);
             Utils.alert(this, e.getMessage());
         }
     }
@@ -89,12 +93,23 @@ public class LoginActivity extends BaseActivity implements TaskListener {
 
 
     @Override
-    public void onTaskSuccess() {
+    public void onAuthSuccess() {
+        loaderOff(loader);
         startNewsFeed();
     }
 
     @Override
-    public void onTaskError(String errorMsg) {
+    public void onAuthError(String errorMsg) {
+        loaderOff(loader);
         Utils.alert(this, errorMsg);
+    }
+
+    private void showNoInternetDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.no_internet_label)
+                .setMessage(R.string.no_internet_message)
+                .setPositiveButton(R.string.exit_dialog_message, (dialog, which) -> finish())
+                .setCancelable(false);
+        builder.create().show();
     }
 }

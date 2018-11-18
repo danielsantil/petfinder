@@ -1,7 +1,6 @@
 package com.androidadvanced.petfinder.utils;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;

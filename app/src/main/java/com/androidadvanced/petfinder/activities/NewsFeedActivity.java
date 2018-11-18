@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidadvanced.petfinder.R;
@@ -31,8 +33,12 @@ import butterknife.OnClick;
 public class NewsFeedActivity extends OptionsMenuActivity
         implements RecyclerAdapterSetter<RecyclerViewAdapter<Post>, Post> {
 
+    public static final String IMAGE_MIME_TYPE = "image/jpeg";
+
     @BindView(R.id.news_feed_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.generic_loader)
+    ProgressBar loader;
 
     private Repository<Post> repository;
 
@@ -47,6 +53,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
     }
 
     private void init() {
+        loaderOn(loader);
         repository.getAll(new DataQueryListener<List<Post>>() {
             @Override
             public void onQuerySuccess(List<Post> result) {
@@ -70,6 +77,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
                     false));
             recyclerView.setAdapter(createAdapter(posts));
         }
+        loaderOff(loader);
     }
 
     @Override
@@ -81,13 +89,16 @@ public class NewsFeedActivity extends OptionsMenuActivity
             TextView seen = view.findViewById(R.id.seen_count);
             TextView helping = view.findViewById(R.id.helping_count);
             ImageButton details = view.findViewById(R.id.post_details);
+            LinearLayout infoContainer = view.findViewById(R.id.info_container);
 
             name.setText(item.getPet().getName());
             lastSeen.setText(item.getPet().getLastSeenAddress());
             seen.setText(String.valueOf(item.getStats().getSeen()));
             helping.setText(String.valueOf(item.getStats().getHelping()));
             Glide.with(this).load(Uri.parse(item.getPet().getPhotoUrl())).into(picture);
+            picture.setOnClickListener(v -> showImage(Uri.parse(item.getPet().getPhotoUrl())));
 
+            infoContainer.setOnClickListener(v -> showDetails(item));
             details.setOnClickListener(v -> showDetails(item));
         });
     }
@@ -96,6 +107,12 @@ public class NewsFeedActivity extends OptionsMenuActivity
         Intent intent = new Intent(this, PostDetailsActivity.class);
         intent.putExtra(Keys.POST_DETAIL, new Gson().toJson(post));
         startActivity(intent);
+    }
+
+    private void showImage(Uri uri) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setDataAndType(uri, IMAGE_MIME_TYPE);
+        startActivity(i);
     }
 
     @Override

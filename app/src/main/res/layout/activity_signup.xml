@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BaseTheme">
+    <ScrollView style="@style/BaseTheme">
 
-    <LinearLayout
-        style="@style/BaseTheme30"
-        android:orientation="vertical">
+        <LinearLayout
+            style="@style/BaseTheme30"
+            android:orientation="vertical">
 
-        <TextView
-            style="@style/TextMainTitle"
-            android:layout_marginBottom="50dp"
-            android:text="@string/create_account" />
+            <TextView
+                style="@style/TextMainTitle"
+                android:layout_marginBottom="50dp"
+                android:text="@string/create_account" />
 
-        <TextView
-            style="@style/NormalText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:text="@string/signup_info_text" />
+            <TextView
+                style="@style/NormalText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:text="@string/signup_info_text" />
 
-        <include layout="@layout/credentials_container" />
+            <include layout="@layout/credentials_container" />
 
-        <Button
-            android:id="@+id/signup_button"
-            style="@style/ButtonColored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/create" />
+            <Button
+                android:id="@+id/signup_button"
+                style="@style/ButtonColored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/create" />
 
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/generic_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</FrameLayout>

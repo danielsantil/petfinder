@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidadvanced.petfinder.R;
@@ -29,6 +30,8 @@ import butterknife.OnClick;
 
 public class PostDetailsActivity extends OptionMenuBackActivity {
 
+    private static final String TEXT_MIME_TYPE = "text/plain";
+
     @BindView(R.id.pet_name)
     TextView petName;
     @BindView(R.id.pet_pub_date)
@@ -43,6 +46,8 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     TextView lastSeenAddress;
     @BindView(R.id.pet_description)
     TextView description;
+    @BindView(R.id.generic_loader)
+    ProgressBar loader;
 
     private Repository<Profile> repository;
     private Post post;
@@ -59,6 +64,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     }
 
     private void init() {
+        loaderOn(loader);
         String postStr = getIntent().getStringExtra(Keys.POST_DETAIL);
         post = new Gson().fromJson(postStr, Post.class);
         petName.setText(post.getPet().getName());
@@ -69,6 +75,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         helpCount.setText(String.valueOf(post.getStats().getHelping()));
         lastSeenAddress.setText(post.getPet().getLastSeenAddress());
         description.setText(post.getDescription());
+        loaderOff(loader);
     }
 
     @Override
@@ -83,16 +90,19 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
             return;
         }
 
+        loaderOn(loader);
         Context context = this;
         repository.get(post.getUserId(), new DataQueryListener<Profile>() {
             @Override
             public void onQuerySuccess(Profile result) {
                 petOwner = result;
                 showContactDialog(result);
+                loaderOff(loader);
             }
 
             @Override
             public void onQueryError(String errorMsg) {
+                loaderOff(loader);
                 Utils.alert(context, errorMsg);
             }
         });
@@ -110,9 +120,19 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.contact_information_label)
-                .setPositiveButton("Close", ((dialog, which) -> dialog.dismiss()))
+                .setPositiveButton(R.string.close_dialog_text, ((dialog, which) -> dialog.dismiss()))
                 .setView(view);
         builder.create().show();
+    }
+
+    @OnClick(R.id.pet_picture)
+    void showImage() {
+        if (post.getPet().getPhotoUrl() == null) {
+            return;
+        }
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setDataAndType(Uri.parse(post.getPet().getPhotoUrl()), NewsFeedActivity.IMAGE_MIME_TYPE);
+        startActivity(i);
     }
 
     @SuppressLint("InflateParams")
@@ -124,8 +144,10 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.share_dialog_label_text)
-                .setNegativeButton("Go back", ((dialog, which) -> dialog.dismiss()))
-                .setPositiveButton("Share", ((dialog, which) -> sharePost(editText.getText().toString())))
+                .setNegativeButton(R.string.go_back_dialog_text, ((dialog, which) -> dialog.dismiss()))
+                .setPositiveButton(R.string.share_post, ((dialog, which) -> sharePost(editText.getText()
+                        .toString
+                        ())))
                 .setView(view);
         builder.create().show();
     }
@@ -133,13 +155,12 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
     void sharePost(String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, text);
-        intent.setType("text/plain");
+        intent.setType(TEXT_MIME_TYPE);
         startActivity(Intent.createChooser(intent, null));
     }
 
     private String getGenericShareText() {
-        return String.format("Please, help me finding %s.\n%s\nLast known location: %s.\nHere's a" +
-                        " link to the picture: %s",
+        return String.format(getString(R.string.generic_share_text),
                 post.getPet().getName(),
                 post.getDescription(),
                 post.getPet().getLastSeenAddress(),

@@ -1,138 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/BaseTheme"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ScrollView
-        android:id="@+id/profile_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/signup_buttons_container"
-        android:layout_alignParentStart="true">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/BaseTheme"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            style="@style/BaseTheme30"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:id="@+id/profile_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/select_a_profile_picture" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="165dp"
-                    android:background="@color/colorAccent">
-
-                    <ImageButton
-                        android:id="@+id/profile_choose_picture"
-                        style="@style/BorderlessButton"
-                        android:layout_width="50dp"
-                        android:layout_height="35dp"
-                        android:layout_alignParentStart="true"
-                        android:contentDescription="@string/edit_picture"
-                        android:src="@drawable/ic_edit" />
-
-                    <ImageButton
-                        android:id="@+id/profile_delete_picture"
-                        style="@style/BorderlessButton"
-                        android:layout_width="50dp"
-                        android:layout_height="35dp"
-                        android:layout_alignParentEnd="true"
-                        android:contentDescription="@string/delete_picture"
-                        android:src="@drawable/ic_cancel" />
-                </RelativeLayout>
-            </FrameLayout>
-
-            <EditText
-                android:id="@+id/signup_name"
-                style="@style/TextMainTitle"
-                android:hint="@string/fullname_edit_text"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                tools:targetApi="o" />
+        <ScrollView
+            android:id="@+id/profile_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/signup_buttons_container"
+            android:layout_alignParentStart="true">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                style="@style/BaseTheme30"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:text="@string/active_since_label"
-                    style="@style/HeadingSectionText" />
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:id="@+id/active_since"
-                    android:layout_marginTop="10dp"
-                    style="@style/NormalText"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/profile_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/select_a_profile_picture" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="165dp"
+                        android:background="@color/colorAccent">
 
-                <TextView
-                    android:text="@string/contact_information_label"
-                    style="@style/HeadingSectionText" />
+                        <ImageButton
+                            android:id="@+id/profile_choose_picture"
+                            style="@style/BorderlessButton"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentStart="true"
+                            android:contentDescription="@string/edit_picture"
+                            android:src="@drawable/ic_edit" />
+
+                        <ImageButton
+                            android:id="@+id/profile_delete_picture"
+                            style="@style/BorderlessButton"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentEnd="true"
+                            android:contentDescription="@string/delete_picture"
+                            android:src="@drawable/ic_cancel" />
+                    </RelativeLayout>
+                </FrameLayout>
 
                 <EditText
-                    android:id="@+id/profile_phone_number"
-                    style="@style/LoginEditText"
-                    android:drawableStart="@drawable/ic_phone"
-                    android:drawablePadding="10dp"
-                    android:hint="@string/phone_edit_text"
+                    android:id="@+id/signup_name"
+                    style="@style/TextMainTitle"
+                    android:hint="@string/fullname_edit_text"
                     android:importantForAutofill="no"
-                    android:inputType="phone"
-                    android:textSize="16sp"
+                    android:inputType="text"
                     tools:targetApi="o" />
 
-                <TextView
-                    android:id="@+id/profile_email"
-                    style="@style/NormalText"
-                    android:layout_marginStart="5dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:drawableStart="@drawable/ic_mail"
-                    android:drawablePadding="10dp"
-                    android:hint="@string/email_address_hint"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/HeadingSectionText"
+                        android:text="@string/active_since_label" />
+
+                    <TextView
+                        android:id="@+id/active_since"
+                        style="@style/NormalText"
+                        android:layout_marginTop="10dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/HeadingSectionText"
+                        android:text="@string/contact_information_label" />
+
+                    <EditText
+                        android:id="@+id/profile_phone_number"
+                        style="@style/LoginEditText"
+                        android:drawableStart="@drawable/ic_phone"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/phone_edit_text"
+                        android:importantForAutofill="no"
+                        android:inputType="phone"
+                        android:textSize="16sp"
+                        tools:targetApi="o" />
+
+                    <TextView
+                        android:id="@+id/profile_email"
+                        style="@style/NormalText"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableStart="@drawable/ic_mail"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/email_address_hint"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
+
+        </ScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/signup_buttons_container"
+            style="@style/HorizontalButtonsContainer">
+
+            <Button
+                android:id="@+id/profile_skip_button"
+                style="@style/InsideContainerButtonColored"
+                android:backgroundTint="@color/colorAccent"
+                android:text="@string/skip" />
+
+            <Button
+                android:id="@+id/profile_save_button"
+                style="@style/InsideContainerButtonColored"
+                android:drawableStart="@drawable/ic_save"
+                android:text="@string/save_profile" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/generic_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/signup_buttons_container"
-        style="@style/HorizontalButtonsContainer">
-
-        <Button
-            android:id="@+id/profile_skip_button"
-            style="@style/InsideContainerButtonColored"
-            android:backgroundTint="@color/colorAccent"
-            android:text="@string/skip" />
-
-        <Button
-            android:id="@+id/profile_save_button"
-            style="@style/InsideContainerButtonColored"
-            android:drawableStart="@drawable/ic_save"
-            android:text="@string/save_profile" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</FrameLayout>
