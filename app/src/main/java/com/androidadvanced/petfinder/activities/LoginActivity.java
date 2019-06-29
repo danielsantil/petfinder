@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity implements AuthListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        myAuth = new FirebaseAuthHelper(getFirebaseAuth());
+        this.myAuth = new FirebaseAuthHelper(getFirebaseAuth());
         init();
     }
 
@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity implements AuthListener {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         uncoverPwd.setOnClickListener(v -> showPassword(password));
-        if (myAuth.isUserActive()) {
+        if (this.myAuth.isUserActive()) {
             startNewsFeed();
         }
     }
@@ -70,9 +70,10 @@ public class LoginActivity extends BaseActivity implements AuthListener {
     @OnClick(R.id.login_btn)
     void validateLogin() {
         try {
-            Credentials creds = new Credentials(email.getText().toString(), password.getText().toString());
+            Credentials creds = new Credentials(email.getText().toString(),
+                    password.getText().toString(), this);
             loaderOn(loader);
-            myAuth.signIn(creds, this);
+            this.myAuth.signIn(creds, this);
         } catch (Exception e) {
             loaderOff(loader);
             Utils.alert(this, e.getMessage());

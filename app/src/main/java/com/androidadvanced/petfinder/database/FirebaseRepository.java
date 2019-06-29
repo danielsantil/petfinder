@@ -14,15 +14,16 @@ import java.util.List;
 public class FirebaseRepository<T> implements Repository<T> {
 
     private final Class<T> refType;
+    private final FirebaseDatabase database;
 
     public FirebaseRepository(Class<T> refType) {
         this.refType = refType;
+        this.database = FirebaseDatabase.getInstance();
     }
 
     @Override
     public void put(BaseEntity entity, DataCommandListener listener) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference().child(getNodeName(refType));
+        DatabaseReference ref = this.database.getReference().child(getNodeName(this.refType));
 
         ref.child(getKey(entity, ref)).setValue(entity)
                 .addOnSuccessListener(aVoid -> listener.onCommandSuccess())
@@ -31,8 +32,8 @@ public class FirebaseRepository<T> implements Repository<T> {
 
     @Override
     public void get(String uid, DataQueryListener<T> listener) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference().child(getNodeName(refType)).child(uid);
+        DatabaseReference ref = this.database.getReference().child(getNodeName(this.refType))
+                .child(uid);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -49,8 +50,7 @@ public class FirebaseRepository<T> implements Repository<T> {
 
     @Override
     public void getAll(DataQueryListener<List<T>> listener) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference().child(getNodeName(refType));
+        DatabaseReference ref = this.database.getReference().child(getNodeName(this.refType));
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override

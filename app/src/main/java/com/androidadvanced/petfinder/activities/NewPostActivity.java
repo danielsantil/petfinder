@@ -25,6 +25,7 @@ import com.androidadvanced.petfinder.storage.FileStore;
 import com.androidadvanced.petfinder.storage.FirebaseStore;
 import com.androidadvanced.petfinder.storage.Folders;
 import com.androidadvanced.petfinder.storage.StoreListener;
+import com.androidadvanced.petfinder.utils.NewPostStep;
 import com.androidadvanced.petfinder.utils.Utils;
 
 import java.util.ArrayList;
@@ -33,8 +34,12 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewPostActivity extends OptionMenuBackActivity implements NewPostPictureFragment
-        .FragmentListener, NewPostDetailsFragment.FragmentListener,
+import static com.androidadvanced.petfinder.utils.NewPostStep.DETAILS;
+import static com.androidadvanced.petfinder.utils.NewPostStep.LOCATION;
+import static com.androidadvanced.petfinder.utils.NewPostStep.PICTURE;
+
+public class NewPostActivity extends OptionMenuBackActivity
+        implements NewPostPictureFragment.FragmentListener, NewPostDetailsFragment.FragmentListener,
         NewPostLocationFragment.FragmentListener {
 
     @BindView(R.id.new_post_continue_btn)
@@ -63,14 +68,14 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
         ButterKnife.bind(this);
         initMenu();
         init();
-        authenticator = new FirebaseAuthHelper(getFirebaseAuth());
-        repository = new FirebaseRepository<>(Post.class);
-        storage = new FirebaseStore(Folders.PETS);
+        this.authenticator = new FirebaseAuthHelper(getFirebaseAuth());
+        this.repository = new FirebaseRepository<>(Post.class);
+        this.storage = new FirebaseStore(Folders.PETS);
     }
 
     private void init() {
-        newPost = new Post();
-        showStep(1);
+        this.newPost = new Post();
+        showStep(NewPostStep.PICTURE);
     }
 
     void showFragment(Fragment fragment) {
@@ -82,13 +87,13 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
 
     @Override
     public void onPictureInteraction(Post post) {
-        newPost = post;
+        this.newPost = post;
         setEnabledContinueButton(true);
     }
 
     @Override
     public void onDetailsInteraction(Post post) {
-        newPost = post;
+        this.newPost = post;
         setEnabledContinueButton(false);
     }
 
@@ -99,33 +104,34 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
 
     @Override
     public void onLocationInteraction(Post post) {
-        newPost = post;
+        this.newPost = post;
         setEnabledContinueButton(true);
     }
 
-    private void setFrame(int headingText, int backVisible, boolean isLastStep, View.OnClickListener backListener, View.OnClickListener continueListener) {
-        headerText.setText(headingText);
+    private void setFrame(int headingText, int backVisible, boolean isLastStep,
+                          View.OnClickListener backListener, View.OnClickListener continueListener) {
+        this.headerText.setText(headingText);
         setEnabledContinueButton(false);
-        continueButton.setOnClickListener(continueListener);
-        backButton.setVisibility(backVisible);
-        backButton.setOnClickListener(backListener);
+        this.continueButton.setOnClickListener(continueListener);
+        this.backButton.setVisibility(backVisible);
+        this.backButton.setOnClickListener(backListener);
 
         if (isLastStep) {
-            continueButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
+            this.continueButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
                     getDrawable(R.drawable.ic_new_post), null);
-            continueButton.setText(R.string.new_post_last_step);
+            this.continueButton.setText(R.string.new_post_last_step);
         } else {
-            continueButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
+            this.continueButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
                     getDrawable(R.drawable.ic_right_arrow_next), null);
-            continueButton.setText(R.string.new_post_next_step);
+            this.continueButton.setText(R.string.new_post_next_step);
         }
     }
 
     void setEnabledContinueButton(boolean enabled) {
-        continueButton.setEnabled(enabled);
+        this.continueButton.setEnabled(enabled);
         int color = enabled ? R.color.colorPrimary : android.R.color.darker_gray;
-        continueButton.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(),
-                color));
+        this.continueButton.setBackgroundTintList(ContextCompat
+                .getColorStateList(getApplicationContext(), color));
     }
 
     @Override
@@ -139,36 +145,37 @@ public class NewPostActivity extends OptionMenuBackActivity implements NewPostPi
         }
     }
 
-    private void showStep(int step) {
+    private void showStep(NewPostStep step) {
         switch (step) {
-            case 1:
-                showFragment(NewPostPictureFragment.newInstance(newPost));
+            case PICTURE:
+                showFragment(NewPostPictureFragment.newInstance(this.newPost));
                 setFrame(R.string.picture_tab_text, View.GONE, false, b -> {},
-                        c -> showStep(2));
+                        c -> showStep(DETAILS));
                 break;
-            case 2:
-                showFragment(NewPostDetailsFragment.newInstance(newPost));
-                setFrame(R.string.details_tab_text, View.VISIBLE, false, b -> showStep(1),
-                        c -> showStep(3));
+            case DETAILS:
+                showFragment(NewPostDetailsFragment.newInstance(this.newPost));
+                setFrame(R.string.details_tab_text, View.VISIBLE, false, b -> showStep(PICTURE),
+                        c -> showStep(LOCATION));
                 break;
-            case 3:
-                showFragment(NewPostLocationFragment.newInstance(newPost));
-                setFrame(R.string.location_tab_text, View.VISIBLE, true, b -> showStep(2),
+            case LOCATION:
+                showFragment(NewPostLocationFragment.newInstance(this.newPost));
+                setFrame(R.string.location_tab_text, View.VISIBLE, true, b -> showStep(DETAILS),
                         c -> savePost());
                 break;
         }
     }
 
     private void savePost() {
-        loaderOn(loader);
+        loaderOn(this.loader);
         // Setting metadata to post entity
-        newPost.setUserId(authenticator.getCurrentUser().getUid());
-        newPost.setPubDate(Utils.formatDate(new Date()));
-        newPost.setHelping(new ArrayList<>());
-        newPost.getHelping().add(newPost.getUserId());
+        this.newPost.setUserId(this.authenticator.getCurrentUser().getUid());
+        this.newPost.setPubDate(Utils.formatDate(new Date()));
+        this.newPost.setHelping(new ArrayList<>());
+        this.newPost.getHelping().add(this.newPost.getUserId());
 
         Context context = this;
-        storage.save(Uri.parse(newPost.getPet().getPhotoUrl()), newPost.getUserId(), new StoreListener() {
+        this.storage.save(Uri.parse(this.newPost.getPet().getPhotoUrl()), this.newPost.getUserId(),
+                new StoreListener() {
             @Override
             public void onStoreSuccess(Uri uri) {
                 newPost.getPet().setPhotoUrl(uri.toString());

@@ -71,10 +71,10 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
-        auth = new FirebaseAuthHelper(getFirebaseAuth());
-        repository = new FirebaseRepository<>(Profile.class);
-        storage = new FirebaseStore(Folders.PROFILE_PICTURES);
-        imagePicker = new ImagePicker(this, null, this::setPicture);
+        this.auth = new FirebaseAuthHelper(getFirebaseAuth());
+        this.repository = new FirebaseRepository<>(Profile.class);
+        this.storage = new FirebaseStore(Folders.PROFILE_PICTURES);
+        this.imagePicker = new ImagePicker(this, null, this::setPicture);
         init();
     }
 
@@ -83,14 +83,14 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
             getSupportActionBar().setTitle(R.string.my_profile_title);
 
         if (getIntent().getBooleanExtra(Keys.SHOW_BACK_MENU, false)) {
-            fromFeed = true;
-            skipButton.setVisibility(View.GONE);
+            this.fromFeed = true;
+            this.skipButton.setVisibility(View.GONE);
             initMenu();
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        loaderOn(loader);
-        repository.get(auth.getCurrentUser().getUid(), this);
+        loaderOn(this.loader);
+        this.repository.get(this.auth.getCurrentUser().getUid(), this);
     }
 
     @Override
@@ -99,40 +99,39 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
     }
 
     @Override
-    public void onQueryError(String errorMsg) {
-    }
+    public void onQueryError(String errorMsg) {}
 
     private void updateUI(Profile profile) {
         if (profile == null) {
             return;
         }
 
-        displayName.setTag(profile.getId()); // We set this tag to get it back when saving changes
+        this.displayName.setTag(profile.getId()); // We set this tag to get it back when saving changes
         Uri tempUri = profile.getPhotoUrl() != null ? Uri.parse(profile.getPhotoUrl()) : null;
         setPicture(tempUri);
-        displayName.setText(StringUtils.defaultString(profile.getFullName()));
-        activeSince.setText(profile.getActiveSince());
-        phoneNumber.setText(StringUtils.defaultString(profile.getContact().getPhoneNumber()));
-        email.setText(StringUtils.defaultString(profile.getContact().getEmail()));
-        loaderOff(loader);
+        this.displayName.setText(StringUtils.defaultString(profile.getFullName()));
+        this.activeSince.setText(profile.getActiveSince());
+        this.phoneNumber.setText(StringUtils.defaultString(profile.getContact().getPhoneNumber()));
+        this.email.setText(StringUtils.defaultString(profile.getContact().getEmail()));
+        loaderOff(this.loader);
     }
 
     @OnClick(R.id.profile_save_button)
     void saveChanges() {
-        loaderOn(loader);
+        loaderOn(this.loader);
         // We recreate the profile entity before saving changes
         Profile profile = new Profile();
-        profile.setId(String.valueOf(displayName.getTag()));
-        profile.setFullName(displayName.getText().toString());
-        profile.setPhotoUrl(String.valueOf(profilePicture.getTag(keyTag)));
-        profile.setActiveSince(activeSince.getText().toString());
-        profile.getContact().setPhoneNumber(phoneNumber.getText().toString());
-        profile.getContact().setEmail(email.getText().toString());
+        profile.setId(String.valueOf(this.displayName.getTag()));
+        profile.setFullName(this.displayName.getText().toString());
+        profile.setPhotoUrl(String.valueOf(this.profilePicture.getTag(this.keyTag)));
+        profile.setActiveSince(this.activeSince.getText().toString());
+        profile.getContact().setPhoneNumber(this.phoneNumber.getText().toString());
+        profile.getContact().setEmail(this.email.getText().toString());
 
         // If there's a picture, upload it before changes
         if (profile.getPhotoUrl() != null) {
             Context context = this;
-            storage.save(Uri.parse(profile.getPhotoUrl()), profile.getId(), new StoreListener() {
+            this.storage.save(Uri.parse(profile.getPhotoUrl()), profile.getId(), new StoreListener() {
                 @Override
                 public void onStoreSuccess(Uri uri) {
                     profile.setPhotoUrl(uri.toString());
@@ -151,7 +150,7 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
     }
 
     void updateProfile(Profile profile, Context context) {
-        repository.put(profile, new DataCommandListener() {
+        this.repository.put(profile, new DataCommandListener() {
             @Override
             public void onCommandSuccess() {
                 loaderOff(loader);
@@ -181,7 +180,7 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
 
     @OnClick({R.id.profile_choose_picture, R.id.profile_picture})
     void choosePicture() {
-        imagePicker.choosePicture(true);
+        this.imagePicker.choosePicture(true);
     }
 
     @OnClick(R.id.profile_delete_picture)
@@ -193,18 +192,18 @@ public class EditProfileActivity extends OptionMenuBackActivity implements DataQ
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imagePicker.handlePermission(requestCode, grantResults);
+        this.imagePicker.handlePermission(requestCode, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imagePicker.handleActivityResult(resultCode, requestCode, data);
+        this.imagePicker.handleActivityResult(resultCode, requestCode, data);
     }
 
     private void setPicture(Uri capturedImageUri) {
         Glide.with(this).load(capturedImageUri).apply(new RequestOptions()
-                .placeholder(R.drawable.ic_person).centerCrop()).into(profilePicture);
-        profilePicture.setTag(keyTag, capturedImageUri);
+                .placeholder(R.drawable.ic_person).centerCrop()).into(this.profilePicture);
+        this.profilePicture.setTag(this.keyTag, capturedImageUri);
     }
 }

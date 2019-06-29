@@ -70,4 +70,6 @@
     <string name="want_to_help_dialog_msg">Are you sure you want to help finding this pet?</string>
     <string name="dont_want_to_help_dialog_msg">You are about to stop helping this pet.</string>
     <string name="sign_off_dialog_text">Sign me off</string>
+    <string name="invalid_email_address">Please enter a valid email address</string>
+    <string name="invalid_password_length">Password length is below 8 characters</string>
 </resources>

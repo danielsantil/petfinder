@@ -1,6 +1,5 @@
 package com.androidadvanced.petfinder.activities;
 
-import android.view.Menu;
 import android.view.MenuItem;
 
 public abstract class OptionMenuBackActivity extends BaseActivity {

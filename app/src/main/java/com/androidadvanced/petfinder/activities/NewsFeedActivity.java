@@ -54,14 +54,14 @@ public class NewsFeedActivity extends OptionsMenuActivity
         setContentView(R.layout.activity_news_feed);
         initMenu();
         ButterKnife.bind(this);
-        repository = new FirebaseRepository<>(Post.class);
-        authenticator = new FirebaseAuthHelper(getFirebaseAuth());
+        this.repository = new FirebaseRepository<>(Post.class);
+        this.authenticator = new FirebaseAuthHelper(getFirebaseAuth());
         init();
     }
 
     private void init() {
-        loaderOn(loader);
-        repository.getAll(new DataQueryListener<List<Post>>() {
+        loaderOn(this.loader);
+        this.repository.getAll(new DataQueryListener<List<Post>>() {
             @Override
             public void onQuerySuccess(List<Post> result) {
                 updateUI(result);
@@ -77,14 +77,14 @@ public class NewsFeedActivity extends OptionsMenuActivity
 
     private void updateUI(List<Post> posts) {
         if (posts == null || posts.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
+            this.recyclerView.setVisibility(View.GONE);
         } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                    false));
-            recyclerView.setAdapter(createAdapter(posts));
+            this.recyclerView.setVisibility(View.VISIBLE);
+            this.recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                    LinearLayoutManager.VERTICAL, false));
+            this.recyclerView.setAdapter(createAdapter(posts));
         }
-        loaderOff(loader);
+        loaderOff(this.loader);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class NewsFeedActivity extends OptionsMenuActivity
             helpButton.setOnClickListener(v -> showNewHelperDialog(item));
 
             // If current user is the owner of the post, don't show help button
-            if (item.getUserId().equals(authenticator.getCurrentUser().getUid())) {
+            if (item.getUserId().equals(this.authenticator.getCurrentUser().getUid())) {
                 helpButton.setVisibility(View.GONE);
             } else if (isUserHelping(item)) {
                 helpButton.setText(R.string.already_helping_text);
@@ -142,18 +142,18 @@ public class NewsFeedActivity extends OptionsMenuActivity
     }
 
     private void unsaveFromHelpingList(Post post) {
-        post.getHelping().remove(authenticator.getCurrentUser().getUid());
-        repository.put(post, new EmptyDataCommandListener());
+        post.getHelping().remove(this.authenticator.getCurrentUser().getUid());
+        this.repository.put(post, new EmptyDataCommandListener());
     }
 
     private void saveToHelpingList(Post post) {
-        post.getHelping().add(authenticator.getCurrentUser().getUid());
-        repository.put(post, new EmptyDataCommandListener());
+        post.getHelping().add(this.authenticator.getCurrentUser().getUid());
+        this.repository.put(post, new EmptyDataCommandListener());
     }
 
     private boolean isUserHelping(Post post) {
         for (String user : post.getHelping()) {
-            if (user.equals(authenticator.getCurrentUser().getUid())) {
+            if (user.equals(this.authenticator.getCurrentUser().getUid())) {
                 return true;
             }
         }

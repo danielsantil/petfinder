@@ -43,7 +43,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int pos) {
-        holderSetter.setViewItems(holder.view, this.items.get(pos));
+        this.holderSetter.setViewItems(holder.view, this.items.get(pos));
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

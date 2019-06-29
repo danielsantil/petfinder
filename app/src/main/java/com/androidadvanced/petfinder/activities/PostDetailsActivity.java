@@ -58,22 +58,22 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
         initMenu();
         ButterKnife.bind(this);
         init();
-        profileRepository = new FirebaseRepository<>(Profile.class);
+        this.profileRepository = new FirebaseRepository<>(Profile.class);
     }
 
     private void init() {
-        loaderOn(loader);
+        loaderOn(this.loader);
         String postId = getIntent().getStringExtra(Keys.POST_DETAIL);
-        post = new Gson().fromJson(postId, Post.class);
-        petName.setText(post.getPet().getName());
-        pubDate.setText(post.getPubDate());
-        Glide.with(this).load(Uri.parse(post.getPet().getPhotoUrl()))
+        this.post = new Gson().fromJson(postId, Post.class);
+        this.petName.setText(post.getPet().getName());
+        this.pubDate.setText(post.getPubDate());
+        Glide.with(this).load(Uri.parse(this.post.getPet().getPhotoUrl()))
                 .apply(RequestOptions.centerCropTransform())
-                .into(picture);
-        helpCount.setText(String.valueOf(post.getHelping().size()));
-        lastSeenAddress.setText(post.getPet().getLastSeenAddress());
-        description.setText(post.getDescription());
-        loaderOff(loader);
+                .into(this.picture);
+        this.helpCount.setText(String.valueOf(this.post.getHelping().size()));
+        this.lastSeenAddress.setText(this.post.getPet().getLastSeenAddress());
+        this.description.setText(post.getDescription());
+        loaderOff(this.loader);
     }
 
     @Override
@@ -83,14 +83,14 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
     @OnClick(R.id.contact_post)
     void getContactInfo() {
-        if (petOwner != null) {
-            showContactDialog(petOwner);
+        if (this.petOwner != null) {
+            showContactDialog(this.petOwner);
             return;
         }
 
-        loaderOn(loader);
+        loaderOn(this.loader);
         Context context = this;
-        profileRepository.get(post.getUserId(), new DataQueryListener<Profile>() {
+        this.profileRepository.get(this.post.getUserId(), new DataQueryListener<Profile>() {
             @Override
             public void onQuerySuccess(Profile result) {
                 petOwner = result;
@@ -125,11 +125,11 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
     @OnClick(R.id.pet_picture)
     void showImage() {
-        if (post.getPet().getPhotoUrl() == null) {
+        if (this.post.getPet().getPhotoUrl() == null) {
             return;
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(Uri.parse(post.getPet().getPhotoUrl()), NewsFeedActivity.IMAGE_MIME_TYPE);
+        i.setDataAndType(Uri.parse(this.post.getPet().getPhotoUrl()), NewsFeedActivity.IMAGE_MIME_TYPE);
         startActivity(i);
     }
 
@@ -145,7 +145,7 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
                 .setNegativeButton(R.string.go_back_dialog_text, ((dialog, which) -> dialog.dismiss()))
                 .setPositiveButton(R.string.share_post, ((dialog, which) -> sharePost(editText.getText()
                         .toString
-                        ())))
+                                ())))
                 .setView(view);
         builder.create().show();
     }
@@ -159,9 +159,9 @@ public class PostDetailsActivity extends OptionMenuBackActivity {
 
     private String getGenericShareText() {
         return String.format(getString(R.string.generic_share_text),
-                post.getPet().getName(),
-                post.getDescription(),
-                post.getPet().getLastSeenAddress(),
-                post.getPet().getPhotoUrl());
+                this.post.getPet().getName(),
+                this.post.getDescription(),
+                this.post.getPet().getLastSeenAddress(),
+                this.post.getPet().getPhotoUrl());
     }
 }

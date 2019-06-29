@@ -1,6 +1,5 @@
 package com.androidadvanced.petfinder.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -43,8 +42,8 @@ public class SignupActivity extends OptionMenuBackActivity implements AuthListen
         setContentView(R.layout.activity_signup);
         initMenu();
         ButterKnife.bind(this);
-        myAuth = new FirebaseAuthHelper(getFirebaseAuth());
-        repository = new FirebaseRepository<>(Profile.class);
+        this.myAuth = new FirebaseAuthHelper(getFirebaseAuth());
+        this.repository = new FirebaseRepository<>(Profile.class);
         init();
     }
 
@@ -56,9 +55,10 @@ public class SignupActivity extends OptionMenuBackActivity implements AuthListen
     @OnClick(R.id.signup_button)
     void createUser() {
         try {
-            Credentials creds = new Credentials(email.getText().toString(), password.getText().toString());
+            Credentials creds = new Credentials(email.getText().toString(),
+                    password.getText().toString(), this);
             loaderOn(loader);
-            myAuth.signUp(creds, this);
+            this.myAuth.signUp(creds, this);
         } catch (Exception e) {
             loaderOff(loader);
             Utils.alert(this, e.getMessage());
@@ -78,9 +78,8 @@ public class SignupActivity extends OptionMenuBackActivity implements AuthListen
 
     @Override
     public void onAuthSuccess() {
-        Profile profile = new Profile(myAuth.getCurrentUser());
-        Context context = this;
-        repository.put(profile, new DataCommandListener() {
+        Profile profile = new Profile(this.myAuth.getCurrentUser());
+        this.repository.put(profile, new DataCommandListener() {
             @Override
             public void onCommandSuccess() {
                 loaderOff(loader);
@@ -89,8 +88,7 @@ public class SignupActivity extends OptionMenuBackActivity implements AuthListen
 
             @Override
             public void onCommandError(String errorMsg) {
-                loaderOff(loader);
-                Utils.alert(context, errorMsg);
+                onAuthError(errorMsg);
             }
         });
     }

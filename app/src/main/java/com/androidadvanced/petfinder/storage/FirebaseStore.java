@@ -10,9 +10,11 @@ import java.io.File;
 public class FirebaseStore implements FileStore {
 
     private final String folderName;
+    private final FirebaseStorage storage;
 
     public FirebaseStore(String folderName) {
         this.folderName = folderName;
+        this.storage = FirebaseStorage.getInstance();
     }
 
     @Override
@@ -23,8 +25,7 @@ public class FirebaseStore implements FileStore {
 
     @Override
     public void save(Uri fileUri, String fileName, StoreListener listener) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference fileRef = storage.getReference(folderName + "/"
+        StorageReference fileRef = this.storage.getReference(this.folderName + "/"
                 + fileName);
 
         fileRef.putFile(fileUri)
